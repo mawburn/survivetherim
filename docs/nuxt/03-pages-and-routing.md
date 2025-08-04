@@ -31,9 +31,7 @@ pages/
 // Page-specific logic
 useHead({
   title: 'About Us',
-  meta: [
-    { name: 'description', content: 'Learn more about our company' }
-  ]
+  meta: [{ name: 'description', content: 'Learn more about our company' }],
 })
 </script>
 ```
@@ -65,7 +63,7 @@ pages/
       <NuxtLink to="/users/profile">Profile</NuxtLink>
       <NuxtLink to="/users/settings">Settings</NuxtLink>
     </nav>
-    
+
     <!-- Child pages will be rendered here -->
     <NuxtPage />
   </div>
@@ -104,7 +102,7 @@ const { data: user, pending } = await useFetch(`/api/users/${route.params.id}`)
 
 // Set page title dynamically
 useHead({
-  title: computed(() => user.value ? `${user.value.name} - Profile` : 'User Profile')
+  title: computed(() => (user.value ? `${user.value.name} - Profile` : 'User Profile')),
 })
 </script>
 ```
@@ -161,20 +159,15 @@ pages/
     <!-- Basic navigation -->
     <NuxtLink to="/">Home</NuxtLink>
     <NuxtLink to="/about">About</NuxtLink>
-    
+
     <!-- Dynamic routes -->
     <NuxtLink :to="`/users/${user.id}`">Profile</NuxtLink>
-    
+
     <!-- External links -->
     <NuxtLink to="https://example.com" external>External Site</NuxtLink>
-    
+
     <!-- With custom classes -->
-    <NuxtLink 
-      to="/blog" 
-      class="nav-link"
-      active-class="active"
-      exact-active-class="exact-active"
-    >
+    <NuxtLink to="/blog" class="nav-link" active-class="active" exact-active-class="exact-active">
       Blog
     </NuxtLink>
   </nav>
@@ -193,7 +186,7 @@ const goToProfile = () => {
 }
 
 // Navigate with parameters
-const goToUser = (id) => {
+const goToUser = id => {
   router.push(`/users/${id}`)
 }
 
@@ -201,7 +194,7 @@ const goToUser = (id) => {
 const goToSearch = () => {
   router.push({
     path: '/search',
-    query: { q: 'vue', category: 'tutorial' }
+    query: { q: 'vue', category: 'tutorial' },
   })
 }
 
@@ -225,18 +218,18 @@ const goForward = () => router.forward()
 const route = useRoute()
 
 // Route parameters
-console.log(route.params.id)        // Dynamic route param
-console.log(route.params.slug)      // Slug parameter
+console.log(route.params.id) // Dynamic route param
+console.log(route.params.slug) // Slug parameter
 
 // Query parameters
-console.log(route.query.search)     // ?search=vue
-console.log(route.query.page)       // ?page=2
+console.log(route.query.search) // ?search=vue
+console.log(route.query.page) // ?page=2
 
 // Hash
-console.log(route.hash)             // #section1
+console.log(route.hash) // #section1
 
 // Full path
-console.log(route.fullPath)         // /users/123?tab=profile#details
+console.log(route.fullPath) // /users/123?tab=profile#details
 </script>
 ```
 
@@ -247,10 +240,13 @@ console.log(route.fullPath)         // /users/123?tab=profile#details
 const route = useRoute()
 
 // Watch for route changes
-watch(() => route.params.id, (newId, oldId) => {
-  console.log(`User changed from ${oldId} to ${newId}`)
-  // Refetch data or update component
-})
+watch(
+  () => route.params.id,
+  (newId, oldId) => {
+    console.log(`User changed from ${oldId} to ${newId}`)
+    // Refetch data or update component
+  }
+)
 
 // Computed based on route
 const currentTab = computed(() => route.query.tab || 'profile')
@@ -265,10 +261,10 @@ const currentTab = computed(() => route.query.tab || 'profile')
 <!-- pages/users/[id].vue -->
 <script setup>
 definePageMeta({
-  validate: async (route) => {
+  validate: async route => {
     // Check if id is a number
     return typeof route.params.id === 'string' && /^\d+$/.test(route.params.id)
-  }
+  },
 })
 </script>
 ```
@@ -283,7 +279,7 @@ const { data: user, error } = await useFetch(`/api/users/${route.params.id}`)
 if (error.value) {
   throw createError({
     statusCode: 404,
-    statusMessage: 'User not found'
+    statusMessage: 'User not found',
   })
 }
 </script>
@@ -301,10 +297,10 @@ definePageMeta({
   middleware: 'auth',
   keepalive: true,
   key: route => route.fullPath, // Custom page key
-  
+
   // Custom properties
   requiresAuth: true,
-  roles: ['admin', 'user']
+  roles: ['admin', 'user'],
 })
 </script>
 ```
@@ -319,7 +315,7 @@ const { data: post } = await useFetch(`/api/posts/${route.params.slug}`)
 // Dynamic page metadata
 definePageMeta({
   title: computed(() => post.value?.title || 'Loading...'),
-  key: route => `post-${route.params.slug}`
+  key: route => `post-${route.params.slug}`,
 })
 
 // SEO metadata
@@ -328,8 +324,8 @@ useHead({
   meta: [
     { name: 'description', content: computed(() => post.value?.excerpt) },
     { property: 'og:title', content: computed(() => post.value?.title) },
-    { property: 'og:description', content: computed(() => post.value?.excerpt) }
-  ]
+    { property: 'og:description', content: computed(() => post.value?.excerpt) },
+  ],
 })
 </script>
 ```
@@ -342,7 +338,7 @@ useHead({
 // middleware/auth.ts
 export default defineNuxtRouteMiddleware((to, from) => {
   const { user } = useAuth()
-  
+
   if (!user.value) {
     return navigateTo('/login')
   }
@@ -353,7 +349,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
 <!-- pages/dashboard.vue -->
 <script setup>
 definePageMeta({
-  middleware: 'auth'
+  middleware: 'auth',
 })
 </script>
 ```
@@ -366,7 +362,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
   // Track page views
   if (process.client) {
     gtag('config', 'GA_MEASUREMENT_ID', {
-      page_path: to.path
+      page_path: to.path,
     })
   }
 })
@@ -379,7 +375,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
 definePageMeta({
   middleware: (to, from) => {
     console.log('Navigating to:', to.path)
-  }
+  },
 })
 </script>
 ```
@@ -398,11 +394,12 @@ definePageMeta({
         <NuxtLink to="/about">About</NuxtLink>
       </nav>
     </header>
-    
+
     <main>
-      <slot /> <!-- Page content will be rendered here -->
+      <slot />
+      <!-- Page content will be rendered here -->
     </main>
-    
+
     <footer>
       <p>&copy; 2024 My App</p>
     </footer>
@@ -419,7 +416,7 @@ definePageMeta({
     <aside class="sidebar">
       <DashboardNav />
     </aside>
-    
+
     <main class="content">
       <slot />
     </main>
@@ -433,7 +430,7 @@ definePageMeta({
 <!-- pages/admin/index.vue -->
 <script setup>
 definePageMeta({
-  layout: 'dashboard'
+  layout: 'dashboard',
 })
 </script>
 ```
@@ -475,12 +472,8 @@ Route groups use parentheses and don't affect the URL structure but help organiz
 <!-- pages/search.vue -->
 <template>
   <div>
-    <input 
-      v-model="searchQuery" 
-      @input="performSearch"
-      placeholder="Search..."
-    >
-    
+    <input v-model="searchQuery" @input="performSearch" placeholder="Search..." />
+
     <div v-if="pending">Searching...</div>
     <div v-else>
       <div v-for="result in results" :key="result.id">
@@ -497,19 +490,22 @@ const router = useRouter()
 const searchQuery = ref(route.query.q || '')
 const { data: results, pending } = await useLazyFetch('/api/search', {
   query: computed(() => ({ q: searchQuery.value })),
-  default: () => []
+  default: () => [],
 })
 
 const performSearch = useDebounceFn(() => {
   router.push({
-    query: { q: searchQuery.value }
+    query: { q: searchQuery.value },
   })
 }, 300)
 
 // Update search query when route changes
-watch(() => route.query.q, (newQuery) => {
-  searchQuery.value = newQuery || ''
-})
+watch(
+  () => route.query.q,
+  newQuery => {
+    searchQuery.value = newQuery || ''
+  }
+)
 </script>
 ```
 
@@ -522,21 +518,13 @@ watch(() => route.query.q, (newQuery) => {
     <div v-for="post in posts" :key="post.id">
       <h2>{{ post.title }}</h2>
     </div>
-    
+
     <nav class="pagination">
-      <NuxtLink 
-        v-if="currentPage > 1"
-        :to="{ query: { page: currentPage - 1 } }"
-      >
+      <NuxtLink v-if="currentPage > 1" :to="{ query: { page: currentPage - 1 } }">
         Previous
       </NuxtLink>
-      
-      <NuxtLink 
-        v-if="hasNextPage"
-        :to="{ query: { page: currentPage + 1 } }"
-      >
-        Next
-      </NuxtLink>
+
+      <NuxtLink v-if="hasNextPage" :to="{ query: { page: currentPage + 1 } }"> Next </NuxtLink>
     </nav>
   </div>
 </template>
@@ -546,7 +534,7 @@ const route = useRoute()
 const currentPage = computed(() => parseInt(route.query.page) || 1)
 
 const { data: posts } = await useFetch('/api/posts', {
-  query: computed(() => ({ page: currentPage.value }))
+  query: computed(() => ({ page: currentPage.value })),
 })
 
 const hasNextPage = computed(() => posts.value?.hasMore || false)

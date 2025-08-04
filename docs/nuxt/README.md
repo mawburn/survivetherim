@@ -99,6 +99,7 @@ npm run deploy
 ### Common Patterns
 
 #### Basic Component Structure
+
 ```vue
 <template>
   <div>{{ message }}</div>
@@ -110,22 +111,24 @@ const message = ref('Hello, World!')
 ```
 
 #### Composable Pattern
+
 ```typescript
 export const useCounter = () => {
   const count = ref(0)
   const increment = () => count.value++
-  
+
   return { count, increment }
 }
 ```
 
 #### Page with Data Fetching
+
 ```vue
 <script setup>
 const { data: posts } = await useFetch('/api/posts')
 
 useHead({
-  title: 'Blog Posts'
+  title: 'Blog Posts',
 })
 </script>
 ```
@@ -158,4 +161,4 @@ useHead({
 
 ---
 
-*This documentation is designed to be your go-to reference for Vue.js and Nuxt.js development. Start with the fundamentals and progress through the guides based on your project needs.*
+_This documentation is designed to be your go-to reference for Vue.js and Nuxt.js development. Start with the fundamentals and progress through the guides based on your project needs._

@@ -7,9 +7,7 @@
     <div class="generator-content">
       <div class="current-result">
         <div class="result-display">
-          <span v-if="isGenerating" class="generating-text">
-            Generating...
-          </span>
+          <span v-if="isGenerating" class="generating-text"> Generating... </span>
           <span v-else class="result-text">
             {{ currentResult || 'Click generate to start!' }}
           </span>
@@ -17,17 +15,13 @@
       </div>
 
       <div class="controls">
-        <BaseButton 
-          @click="generate" 
-          :loading="isGenerating"
-          :disabled="isGenerating"
-        >
+        <BaseButton @click="generate" :loading="isGenerating" :disabled="isGenerating">
           Generate {{ type }}
         </BaseButton>
-        
-        <BaseButton 
+
+        <BaseButton
           v-if="history.length > 0"
-          variant="secondary" 
+          variant="secondary"
           size="small"
           @click="clearHistory"
         >
@@ -38,8 +32,8 @@
       <div v-if="history.length > 0" class="history-section">
         <h4 class="history-title">Previous Results</h4>
         <div class="history-list">
-          <div 
-            v-for="(item, index) in history" 
+          <div
+            v-for="(item, index) in history"
             :key="index"
             class="history-item"
             @click="currentResult = item"
@@ -61,7 +55,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  generateDelay: 1000
+  generateDelay: 1000,
 })
 
 const currentResult = ref<string>('')
@@ -70,25 +64,25 @@ const history = ref<string[]>([])
 
 const generate = async () => {
   isGenerating.value = true
-  
+
   // Simulate generation delay
   await new Promise(resolve => setTimeout(resolve, props.generateDelay))
-  
+
   const randomIndex = Math.floor(Math.random() * props.items.length)
   const result = props.items[randomIndex]
-  
+
   currentResult.value = result
-  
+
   // Add to history if not already there
   if (!history.value.includes(result)) {
     history.value.unshift(result)
-    
+
     // Keep only last 10 items
     if (history.value.length > 10) {
       history.value = history.value.slice(0, 10)
     }
   }
-  
+
   isGenerating.value = false
 }
 

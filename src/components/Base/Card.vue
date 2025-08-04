@@ -3,11 +3,11 @@
     <header v-if="$slots.header" class="card__header">
       <slot name="header" />
     </header>
-    
+
     <div class="card__body">
       <slot />
     </div>
-    
+
     <footer v-if="$slots.footer" class="card__footer">
       <slot name="footer" />
     </footer>
@@ -20,7 +20,7 @@ interface Props {
 }
 
 withDefaults(defineProps<Props>(), {
-  variant: 'default'
+  variant: 'default',
 })
 </script>
 

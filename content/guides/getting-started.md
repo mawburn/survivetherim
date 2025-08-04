@@ -50,18 +50,21 @@ Build these in order of priority:
 ## Essential Early Game Tips
 
 ### Food Management
+
 - Hunt animals for meat (rifles work best)
 - Gather berries when available
 - Plant rice or potatoes as soon as possible
 - Always cook raw food - it's more nutritious and lasts longer
 
 ### Colonist Happiness
+
 - Build tables and chairs for eating
 - Create bedrooms with beds (not sleeping spots)
 - Keep the base clean
 - Maintain comfortable temperatures
 
 ### Research Priorities
+
 1. **Electricity** - Unlocks many quality-of-life improvements
 2. **Air Conditioning** - Temperature control is crucial
 3. **Hydroponics** - Reliable food production
@@ -70,12 +73,14 @@ Build these in order of priority:
 ## Common Beginner Mistakes
 
 ### Don't Do These Things
+
 - Never leave food outside - it will rot or attract animals
 - Don't ignore colonist moods - unhappy colonists cause problems
 - Don't build everything out of wood - fire spreads quickly
 - Don't neglect defenses - raids will come eventually
 
 ### Do These Things
+
 - Save frequently (especially before major decisions)
 - Use the pause button liberally to plan
 - Read all tutorial messages
@@ -95,17 +100,20 @@ By the end of your first week, you should have:
 ## Dealing with Threats
 
 ### Raiders
+
 - Use natural chokepoints
 - Build killboxes with traps
 - Position colonists behind cover
 - Have a retreat plan
 
 ### Wild Animals
+
 - Don't hunt predators unless necessary
 - Be careful during manhunter packs
 - Use doors to control animal movement
 
 ### Weather
+
 - Build roofs to prevent deterioration
 - Use campfires or heaters for warmth
 - Fans or coolers for heat relief
@@ -129,4 +137,4 @@ Remember: the goal isn't just to survive, but to create interesting stories. Emb
 
 ---
 
-*For more advanced tips and strategies, check out our other guides on base design, combat tactics, and production optimization.*
+_For more advanced tips and strategies, check out our other guides on base design, combat tactics, and production optimization._

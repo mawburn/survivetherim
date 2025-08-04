@@ -12,6 +12,7 @@
     "deploy": "nuxt build && wrangler deploy",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
     "typecheck": "nuxi typecheck"
   },
   "pnpm": {
@@ -34,6 +35,9 @@
   },
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.13",
+    "@typescript-eslint/eslint-plugin": "^8.39.0",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "prettier": "^3.6.2",
     "wrangler": "^4.27.0"
   }
 }

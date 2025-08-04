@@ -11,13 +11,8 @@ Components are the building blocks of Vue applications. In Nuxt.js, components a
 ```vue
 <!-- components/BaseButton.vue -->
 <template>
-  <button 
-    :class="[
-      'btn',
-      `btn--${variant}`,
-      `btn--${size}`,
-      { 'btn--loading': loading }
-    ]"
+  <button
+    :class="['btn', `btn--${variant}`, `btn--${size}`, { 'btn--loading': loading }]"
     :disabled="disabled || loading"
     @click="handleClick"
   >
@@ -98,9 +93,7 @@ const handleClick = (event: MouseEvent) => {
     <!-- Components are auto-imported in Nuxt -->
     <BaseButton @click="handleSave">Save</BaseButton>
     <BaseButton variant="secondary" size="small">Cancel</BaseButton>
-    <BaseButton variant="danger" :loading="isDeleting" @click="handleDelete">
-      Delete
-    </BaseButton>
+    <BaseButton variant="danger" :loading="isDeleting" @click="handleDelete"> Delete </BaseButton>
   </div>
 </template>
 
@@ -156,7 +149,7 @@ Add `Lazy` prefix to make components lazy-loaded:
   <div>
     <!-- Regular component -->
     <BaseButton>Click me</BaseButton>
-    
+
     <!-- Lazy-loaded component -->
     <LazyExpensiveChart v-if="showChart" :data="chartData" />
   </div>
@@ -178,19 +171,19 @@ interface User {
 interface Props {
   // Required prop
   user: User
-  
+
   // Optional with default
   showEmail?: boolean
-  
+
   // Union types
   size?: 'small' | 'medium' | 'large'
-  
+
   // Array prop
   tags?: string[]
-  
+
   // Function prop
   onUpdate?: (user: User) => void
-  
+
   // Complex object
   config?: {
     theme: 'light' | 'dark'
@@ -202,14 +195,12 @@ const props = withDefaults(defineProps<Props>(), {
   showEmail: true,
   size: 'medium',
   tags: () => [],
-  config: () => ({ theme: 'light', notifications: true })
+  config: () => ({ theme: 'light', notifications: true }),
 })
 
 // Computed based on props
 const displayName = computed(() => {
-  return props.size === 'small' 
-    ? props.user.name.split(' ')[0] 
-    : props.user.name
+  return props.size === 'small' ? props.user.name.split(' ')[0] : props.user.name
 })
 </script>
 ```
@@ -222,7 +213,7 @@ const displayName = computed(() => {
   <form @submit.prevent="handleSubmit">
     <input v-model="form.name" placeholder="Name" />
     <input v-model="form.email" placeholder="Email" />
-    
+
     <div class="actions">
       <button type="submit">Save</button>
       <button type="button" @click="handleCancel">Cancel</button>
@@ -257,20 +248,20 @@ const form = reactive({
 const handleSubmit = () => {
   // Validation
   const errors: Record<string, string> = {}
-  
+
   if (!form.name.trim()) {
     errors.name = 'Name is required'
   }
-  
+
   if (!form.email.trim()) {
     errors.email = 'Email is required'
   }
-  
+
   if (Object.keys(errors).length > 0) {
     emit('validation-error', errors)
     return
   }
-  
+
   emit('save', { ...form })
 }
 
@@ -291,12 +282,12 @@ const handleCancel = () => {
     <header class="card-header" v-if="$slots.header">
       <slot name="header" />
     </header>
-    
+
     <div class="card-body">
       <!-- Default slot -->
       <slot />
     </div>
-    
+
     <footer class="card-footer" v-if="$slots.footer">
       <slot name="footer" />
     </footer>
@@ -312,10 +303,10 @@ const handleCancel = () => {
     <template #header>
       <h2>User Profile</h2>
     </template>
-    
+
     <!-- Default slot content -->
     <UserProfile :user="user" />
-    
+
     <template #footer>
       <BaseButton @click="edit">Edit</BaseButton>
       <BaseButton variant="danger" @click="delete">Delete</BaseButton>
@@ -341,12 +332,7 @@ const handleCancel = () => {
       <tr v-for="(item, index) in data" :key="item.id">
         <td v-for="column in columns" :key="column.key">
           <!-- Scoped slot with data -->
-          <slot 
-            :name="column.key" 
-            :item="item" 
-            :value="item[column.key]"
-            :index="index"
-          >
+          <slot :name="column.key" :item="item" :value="item[column.key]" :index="index">
             <!-- Default content -->
             {{ item[column.key] }}
           </slot>
@@ -380,18 +366,16 @@ defineProps<Props>()
     <template #email="{ item, value }">
       <a :href="`mailto:${value}`">{{ value }}</a>
     </template>
-    
+
     <template #status="{ item }">
       <span :class="statusClass(item.status)">
         {{ item.status }}
       </span>
     </template>
-    
+
     <template #actions="{ item }">
       <BaseButton size="small" @click="editUser(item)">Edit</BaseButton>
-      <BaseButton size="small" variant="danger" @click="deleteUser(item)">
-        Delete
-      </BaseButton>
+      <BaseButton size="small" variant="danger" @click="deleteUser(item)"> Delete </BaseButton>
     </template>
   </DataTable>
 </template>
@@ -420,34 +404,34 @@ const statusClass = (status: string) => ({
 // composables/useModal.ts
 export const useModal = () => {
   const isOpen = ref(false)
-  
+
   const open = () => {
     isOpen.value = true
     // Prevent body scroll
     document.body.style.overflow = 'hidden'
   }
-  
+
   const close = () => {
     isOpen.value = false
     document.body.style.overflow = ''
   }
-  
+
   const toggle = () => {
     isOpen.value ? close() : open()
   }
-  
+
   // Cleanup on unmount
   onUnmounted(() => {
     if (isOpen.value) {
       document.body.style.overflow = ''
     }
   })
-  
+
   return {
     isOpen: readonly(isOpen),
     open,
     close,
-    toggle
+    toggle,
   }
 }
 ```
@@ -464,11 +448,11 @@ export const useModal = () => {
           <h2>{{ title }}</h2>
           <button @click="close" class="close-btn">&times;</button>
         </header>
-        
+
         <div class="modal-body">
           <slot />
         </div>
-        
+
         <footer class="modal-footer">
           <slot name="footer">
             <BaseButton @click="close">Close</BaseButton>
@@ -530,22 +514,15 @@ defineExpose({
 <!-- Parent Component -->
 <template>
   <div>
-    <UserList 
-      :users="users" 
+    <UserList
+      :users="users"
       :loading="loading"
       @user-selected="handleUserSelected"
       @refresh="loadUsers"
     />
-    
-    <UserModal 
-      ref="userModal"
-      :title="selectedUser ? 'Edit User' : 'Add User'"
-    >
-      <UserForm 
-        :initial-data="selectedUser"
-        @save="handleUserSave"
-        @cancel="closeModal"
-      />
+
+    <UserModal ref="userModal" :title="selectedUser ? 'Edit User' : 'Add User'">
+      <UserForm :initial-data="selectedUser" @save="handleUserSave" @cancel="closeModal" />
     </UserModal>
   </div>
 </template>
@@ -565,12 +542,12 @@ const loadUsers = async () => {
   }
 }
 
-const handleUserSelected = (user) => {
+const handleUserSelected = user => {
   selectedUser.value = user
   userModal.value.open()
 }
 
-const handleUserSave = async (userData) => {
+const handleUserSave = async userData => {
   // Save logic
   await loadUsers()
   closeModal()
@@ -609,7 +586,7 @@ const theme = ref<Theme>({
 })
 
 const toggleDarkMode = () => {
-  theme.value = theme.value.background === '#ffffff' 
+  theme.value = theme.value.background === '#ffffff'
     ? { primary: '#60a5fa', secondary: '#9ca3af', background: '#1f2937' }
     : { primary: '#3b82f6', secondary: '#6b7280', background: '#ffffff' }
 }
@@ -625,10 +602,10 @@ provide('theme', {
 ```vue
 <!-- Consumer Component -->
 <template>
-  <button 
-    :style="{ 
-      backgroundColor: theme.primary, 
-      color: theme.background 
+  <button
+    :style="{
+      backgroundColor: theme.primary,
+      color: theme.background,
     }"
     @click="toggleDarkMode"
   >
@@ -650,8 +627,8 @@ const { theme, toggleDarkMode } = inject('theme')
 <template>
   <div>
     <nav>
-      <button 
-        v-for="tab in tabs" 
+      <button
+        v-for="tab in tabs"
         :key="tab.name"
         :class="{ active: currentTab === tab.name }"
         @click="currentTab = tab.name"
@@ -659,13 +636,9 @@ const { theme, toggleDarkMode } = inject('theme')
         {{ tab.label }}
       </button>
     </nav>
-    
+
     <!-- Dynamic component -->
-    <component 
-      :is="currentComponent" 
-      v-bind="currentProps"
-      @update="handleUpdate"
-    />
+    <component :is="currentComponent" v-bind="currentProps" @update="handleUpdate" />
   </div>
 </template>
 
@@ -675,7 +648,7 @@ const currentTab = ref('profile')
 const tabs = [
   { name: 'profile', label: 'Profile', component: 'UserProfile' },
   { name: 'settings', label: 'Settings', component: 'UserSettings' },
-  { name: 'billing', label: 'Billing', component: 'UserBilling' }
+  { name: 'billing', label: 'Billing', component: 'UserBilling' },
 ]
 
 const currentComponent = computed(() => {
@@ -686,11 +659,11 @@ const currentProps = computed(() => {
   // Pass different props based on current tab
   return {
     userId: 123,
-    editable: currentTab.value !== 'billing'
+    editable: currentTab.value !== 'billing',
   }
 })
 
-const handleUpdate = (data) => {
+const handleUpdate = data => {
   console.log('Component updated:', data)
 }
 </script>
@@ -701,16 +674,14 @@ const handleUpdate = (data) => {
 ```vue
 <script setup>
 // Lazy load heavy components
-const HeavyChart = defineAsyncComponent(() => 
-  import('~/components/HeavyChart.vue')
-)
+const HeavyChart = defineAsyncComponent(() => import('~/components/HeavyChart.vue'))
 
 const ExpensiveTable = defineAsyncComponent({
   loader: () => import('~/components/ExpensiveTable.vue'),
   loadingComponent: () => h('div', 'Loading...'),
   errorComponent: () => h('div', 'Error loading component'),
   delay: 300,
-  timeout: 3000
+  timeout: 3000,
 })
 </script>
 ```
@@ -728,38 +699,38 @@ describe('BaseButton', () => {
   it('renders slot content', () => {
     const wrapper = mount(BaseButton, {
       slots: {
-        default: 'Click me'
-      }
+        default: 'Click me',
+      },
     })
-    
+
     expect(wrapper.text()).toBe('Click me')
   })
-  
+
   it('emits click event', async () => {
     const wrapper = mount(BaseButton)
-    
+
     await wrapper.trigger('click')
-    
+
     expect(wrapper.emitted('click')).toHaveLength(1)
   })
-  
+
   it('applies correct variant class', () => {
     const wrapper = mount(BaseButton, {
       props: {
-        variant: 'danger'
-      }
+        variant: 'danger',
+      },
     })
-    
+
     expect(wrapper.classes()).toContain('btn--danger')
   })
-  
+
   it('disables button when loading', () => {
     const wrapper = mount(BaseButton, {
       props: {
-        loading: true
-      }
+        loading: true,
+      },
     })
-    
+
     expect(wrapper.attributes('disabled')).toBeDefined()
     expect(wrapper.classes()).toContain('btn--loading')
   })
@@ -795,21 +766,18 @@ describe('BaseButton', () => {
       {{ label }}
       <span v-if="required" class="required">*</span>
     </label>
-    
+
     <input
       :id="inputId"
       :type="type"
       :value="modelValue"
       :placeholder="placeholder"
       :disabled="disabled"
-      :class="[
-        'input',
-        { 'input--error': hasError }
-      ]"
+      :class="['input', { 'input--error': hasError }]"
       @input="handleInput"
       @blur="handleBlur"
     />
-    
+
     <div v-if="hasError" class="input-error">
       {{ errorMessage }}
     </div>

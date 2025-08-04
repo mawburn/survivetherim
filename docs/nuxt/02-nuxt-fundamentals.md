@@ -43,29 +43,23 @@ export default defineNuxtConfig({
   app: {
     head: {
       title: 'My Nuxt App',
-      meta: [
-        { name: 'description', content: 'My amazing Nuxt application' }
-      ]
-    }
+      meta: [{ name: 'description', content: 'My amazing Nuxt application' }],
+    },
   },
 
   // CSS framework
   css: ['~/assets/css/main.css'],
 
   // Modules
-  modules: [
-    '@nuxt/content',
-    '@nuxt/image',
-    '@nuxt/icon'
-  ],
+  modules: ['@nuxt/content', '@nuxt/image', '@nuxt/icon'],
 
   // TypeScript configuration
   typescript: {
-    strict: true
+    strict: true,
   },
 
   // Development server
-  devtools: { enabled: true }
+  devtools: { enabled: true },
 })
 ```
 
@@ -78,11 +72,12 @@ Pages are rendered on the server and sent as HTML to the client:
 ```typescript
 // nuxt.config.ts
 export default defineNuxtConfig({
-  ssr: true // Default
+  ssr: true, // Default
 })
 ```
 
 Benefits:
+
 - Better SEO
 - Faster initial page load
 - Better accessibility
@@ -94,11 +89,12 @@ Renders everything on the client-side:
 ```typescript
 // nuxt.config.ts
 export default defineNuxtConfig({
-  ssr: false
+  ssr: false,
 })
 ```
 
 Benefits:
+
 - Faster navigation after initial load
 - Better for highly interactive applications
 
@@ -112,6 +108,7 @@ npm run generate
 ```
 
 Benefits:
+
 - Best performance
 - Can be deployed to CDN
 - No server required
@@ -126,16 +123,16 @@ export default defineNuxtConfig({
   routeRules: {
     // Homepage pre-rendered at build time
     '/': { prerender: true },
-    
+
     // Admin section rendered on-demand as SPA
     '/admin/**': { ssr: false },
-    
+
     // Blog posts pre-rendered at build time, revalidated in background
     '/blog/**': { isr: true },
-    
+
     // API routes
-    '/api/**': { cors: true }
-  }
+    '/api/**': { cors: true },
+  },
 })
 ```
 
@@ -167,19 +164,19 @@ Nuxt automatically imports:
 // composables/useAuth.ts
 export const useAuth = () => {
   const user = ref(null)
-  
-  const login = async (credentials) => {
+
+  const login = async credentials => {
     // Login logic
   }
-  
+
   const logout = () => {
     user.value = null
   }
-  
+
   return {
     user: readonly(user),
     login,
-    logout
+    logout,
   }
 }
 ```
@@ -229,7 +226,7 @@ const { data, pending, error, refresh } = await useFetch('/api/users')
 const { data } = await useFetch('/api/posts', {
   key: 'posts',
   default: () => [],
-  transform: (data) => data.map(post => ({ ...post, formatted: true }))
+  transform: data => data.map(post => ({ ...post, formatted: true })),
 })
 ```
 
@@ -248,11 +245,9 @@ useHead({
   title: 'My Page',
   meta: [
     { name: 'description', content: 'Page description' },
-    { property: 'og:title', content: 'My Page' }
+    { property: 'og:title', content: 'My Page' },
   ],
-  link: [
-    { rel: 'canonical', href: 'https://example.com/page' }
-  ]
+  link: [{ rel: 'canonical', href: 'https://example.com/page' }],
 })
 ```
 
@@ -300,7 +295,7 @@ const { data, error } = await useFetch('/api/users')
 if (error.value) {
   throw createError({
     statusCode: 404,
-    statusMessage: 'Users not found'
+    statusMessage: 'Users not found',
   })
 }
 </script>
@@ -316,12 +311,12 @@ export default defineNuxtConfig({
   runtimeConfig: {
     // Private keys (only available on server-side)
     apiSecret: '123',
-    
+
     // Public keys (exposed to client-side)
     public: {
-      apiBase: '/api'
-    }
-  }
+      apiBase: '/api',
+    },
+  },
 })
 ```
 
@@ -360,17 +355,17 @@ export default defineNuxtPlugin(async () => {
 // plugins/api.ts
 export default defineNuxtPlugin(() => {
   const { $fetch } = useNuxtApp()
-  
+
   // Provide custom $api
   return {
     provide: {
       api: {
         users: {
           get: () => $fetch('/api/users'),
-          create: (data) => $fetch('/api/users', { method: 'POST', body: data })
-        }
-      }
-    }
+          create: data => $fetch('/api/users', { method: 'POST', body: data }),
+        },
+      },
+    },
   }
 })
 ```
@@ -393,14 +388,7 @@ export default defineNuxtPlugin(() => {
 ```vue
 <template>
   <!-- Using @nuxt/image -->
-  <NuxtImg
-    src="/hero.jpg"
-    alt="Hero image"
-    width="800"
-    height="600"
-    format="webp"
-    loading="lazy"
-  />
+  <NuxtImg src="/hero.jpg" alt="Hero image" width="800" height="600" format="webp" loading="lazy" />
 </template>
 ```
 
@@ -433,6 +421,7 @@ npm run dev
 ```
 
 Features:
+
 - Hot module replacement
 - DevTools integration
 - Detailed error messages
@@ -445,6 +434,7 @@ npm run preview
 ```
 
 Features:
+
 - Optimized bundles
 - Tree shaking
 - Minification

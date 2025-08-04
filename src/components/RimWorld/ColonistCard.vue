@@ -18,8 +18,8 @@
         <div class="stat">
           <span class="stat-label">Health</span>
           <div class="health-bar">
-            <div 
-              class="health-fill" 
+            <div
+              class="health-fill"
               :style="{ width: `${colonist.health}%` }"
               :class="healthBarClass"
             ></div>
@@ -30,16 +30,12 @@
       <div class="skills-section">
         <h4 class="skills-title">Skills</h4>
         <div class="skills-list">
-          <div 
-            v-for="skill in topSkills" 
-            :key="skill.name"
-            class="skill-item"
-          >
+          <div v-for="skill in topSkills" :key="skill.name" class="skill-item">
             <span class="skill-name">{{ skill.name }}</span>
             <div class="skill-level">
               <div class="skill-stars">
-                <span 
-                  v-for="star in 10" 
+                <span
+                  v-for="star in 10"
                   :key="star"
                   :class="['star', { 'star--filled': star <= skill.level }]"
                 >
@@ -55,11 +51,7 @@
       <div class="traits-section">
         <h4 class="traits-title">Traits</h4>
         <div class="traits-list">
-          <span 
-            v-for="trait in colonist.traits" 
-            :key="trait"
-            class="trait-tag"
-          >
+          <span v-for="trait in colonist.traits" :key="trait" class="trait-tag">
             {{ trait }}
           </span>
         </div>
@@ -68,9 +60,7 @@
 
     <template #footer>
       <div class="actions">
-        <BaseButton size="small" @click="assignTask">
-          Assign Task
-        </BaseButton>
+        <BaseButton size="small" @click="assignTask"> Assign Task </BaseButton>
         <BaseButton size="small" variant="secondary" @click="viewDetails">
           View Details
         </BaseButton>
@@ -110,7 +100,7 @@ const moodClass = computed(() => ({
   'text-green-600': props.colonist.mood === 'Happy',
   'text-yellow-600': props.colonist.mood === 'Content',
   'text-orange-600': props.colonist.mood === 'Stressed',
-  'text-red-600': props.colonist.mood === 'Breaking'
+  'text-red-600': props.colonist.mood === 'Breaking',
 }))
 
 const healthBarClass = computed(() => {
@@ -121,7 +111,7 @@ const healthBarClass = computed(() => {
   return 'bg-red-500'
 })
 
-const topSkills = computed(() => 
+const topSkills = computed(() =>
   props.colonist.skills
     .slice()
     .sort((a, b) => b.level - a.level)
@@ -170,11 +160,13 @@ const viewDetails = () => {
   @apply h-full transition-all duration-300;
 }
 
-.skills-section, .traits-section {
+.skills-section,
+.traits-section {
   @apply mb-4;
 }
 
-.skills-title, .traits-title {
+.skills-title,
+.traits-title {
   @apply text-sm font-semibold text-gray-700 mb-2;
 }
 

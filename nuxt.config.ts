@@ -4,7 +4,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   srcDir: 'src/',
   nitro: {
-    preset: 'cloudflare-module'
+    preset: 'cloudflare-module',
   },
 
   modules: [
@@ -14,6 +14,6 @@ export default defineNuxtConfig({
     '@nuxt/icon',
     '@nuxt/image',
     '@nuxt/scripts',
-    '@nuxt/test-utils'
-  ]
+    '@nuxt/test-utils',
+  ],
 })

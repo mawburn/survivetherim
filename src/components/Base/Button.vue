@@ -1,10 +1,10 @@
 <template>
-  <button 
+  <button
     :class="[
       'btn',
       `btn--${variant}`,
       `btn--${size}`,
-      { 'btn--loading': loading, 'btn--disabled': disabled }
+      { 'btn--loading': loading, 'btn--disabled': disabled },
     ]"
     :disabled="disabled || loading"
     @click="handleClick"
@@ -26,7 +26,7 @@ const props = withDefaults(defineProps<Props>(), {
   variant: 'primary',
   size: 'medium',
   loading: false,
-  disabled: false
+  disabled: false,
 })
 
 const emit = defineEmits<{

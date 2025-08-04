@@ -38,9 +38,9 @@ count.value++
 const state = reactive({
   user: {
     name: 'John',
-    age: 30
+    age: 30,
   },
-  items: []
+  items: [],
 })
 
 // Access directly (no .value needed)
@@ -133,10 +133,10 @@ onUnmounted(() => {
 <template>
   <!-- Text interpolation -->
   <p>{{ message }}</p>
-  
+
   <!-- Raw HTML -->
   <div v-html="rawHtml"></div>
-  
+
   <!-- Attributes -->
   <div :id="dynamicId" :class="{ active: isActive }"></div>
 </template>
@@ -149,20 +149,20 @@ onUnmounted(() => {
   <!-- Conditional rendering -->
   <p v-if="show">Visible when show is true</p>
   <p v-else>Alternative content</p>
-  
+
   <!-- List rendering -->
   <ul>
     <li v-for="item in items" :key="item.id">
       {{ item.name }}
     </li>
   </ul>
-  
+
   <!-- Event handling -->
   <button @click="handleClick">Click me</button>
-  <input @keyup.enter="handleEnter" v-model="inputValue">
-  
+  <input @keyup.enter="handleEnter" v-model="inputValue" />
+
   <!-- Two-way binding -->
-  <input v-model="message" placeholder="Type here">
+  <input v-model="message" placeholder="Type here" />
 </template>
 ```
 
@@ -176,16 +176,16 @@ import { ref } from 'vue'
 
 export function useCounter(initialValue = 0) {
   const count = ref(initialValue)
-  
+
   const increment = () => count.value++
   const decrement = () => count.value--
-  const reset = () => count.value = initialValue
-  
+  const reset = () => (count.value = initialValue)
+
   return {
     count,
     increment,
     decrement,
-    reset
+    reset,
   }
 }
 ```
@@ -211,12 +211,12 @@ const props = defineProps({
   title: String,
   count: {
     type: Number,
-    default: 0
+    default: 0,
   },
   items: {
     type: Array,
-    required: true
-  }
+    required: true,
+  },
 })
 
 // Use props

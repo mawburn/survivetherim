@@ -40,32 +40,32 @@ Nuxt creates different outputs based on your configuration:
 export default defineNuxtConfig({
   // Build directory
   buildDir: '.nuxt',
-  
+
   // Generate directory for static builds
   generate: {
-    dir: 'dist'
+    dir: 'dist',
   },
-  
+
   // Nitro configuration (server engine)
   nitro: {
     // Output directory
     output: {
-      dir: '.output'
+      dir: '.output',
     },
-    
+
     // Prerender configuration
     prerender: {
       crawlLinks: true,
-      routes: ['/sitemap.xml', '/robots.txt']
+      routes: ['/sitemap.xml', '/robots.txt'],
     },
-    
+
     // Minification
     minify: true,
-    
+
     // Compression
-    compressPublicAssets: true
+    compressPublicAssets: true,
   },
-  
+
   // Vite configuration
   vite: {
     build: {
@@ -73,12 +73,12 @@ export default defineNuxtConfig({
       rollupOptions: {
         output: {
           manualChunks: {
-            vendor: ['vue', 'vue-router']
-          }
-        }
-      }
-    }
-  }
+            vendor: ['vue', 'vue-router'],
+          },
+        },
+      },
+    },
+  },
 })
 ```
 
@@ -92,22 +92,22 @@ export default defineNuxtConfig({
     // Server-side only
     apiSecret: process.env.API_SECRET,
     databaseUrl: process.env.DATABASE_URL,
-    
+
     // Public (exposed to client)
     public: {
       apiBase: process.env.NUXT_PUBLIC_API_BASE || '/api',
       gtmId: process.env.NUXT_PUBLIC_GTM_ID,
-      environment: process.env.NODE_ENV
-    }
+      environment: process.env.NODE_ENV,
+    },
   },
-  
+
   // Development-only modules
   devtools: { enabled: process.env.NODE_ENV === 'development' },
-  
+
   // Production optimizations
   experimental: {
-    payloadExtraction: false // Reduce bundle size
-  }
+    payloadExtraction: false, // Reduce bundle size
+  },
 })
 ```
 
@@ -183,8 +183,8 @@ API_SECRET=your-secret-key
 // nuxt.config.ts
 export default defineNuxtConfig({
   nitro: {
-    preset: 'netlify'
-  }
+    preset: 'netlify',
+  },
 })
 ```
 
@@ -211,8 +211,8 @@ id = "your-kv-namespace-id"
 // nuxt.config.ts
 export default defineNuxtConfig({
   nitro: {
-    preset: 'cloudflare-pages'
-  }
+    preset: 'cloudflare-pages',
+  },
 })
 ```
 
@@ -234,18 +234,18 @@ export default defineNuxtConfig({
 export default defineNuxtConfig({
   // Generate static site
   ssr: false, // SPA mode
-  
+
   // Or use static generation with SSR
   nitro: {
     prerender: {
-      crawlLinks: true
-    }
+      crawlLinks: true,
+    },
   },
-  
+
   // Base URL for GitHub Pages
   app: {
-    baseURL: process.env.NODE_ENV === 'production' ? '/repository-name/' : '/'
-  }
+    baseURL: process.env.NODE_ENV === 'production' ? '/repository-name/' : '/',
+  },
 })
 ```
 
@@ -257,34 +257,34 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18'
-        cache: 'npm'
-    
-    - name: Install dependencies
-      run: npm ci
-    
-    - name: Build
-      run: npm run generate
-      env:
-        NUXT_PUBLIC_API_BASE: ${{ secrets.API_BASE }}
-    
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./dist
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run generate
+        env:
+          NUXT_PUBLIC_API_BASE: ${{ secrets.API_BASE }}
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
 ```
 
 ### Docker Deployment
@@ -327,7 +327,7 @@ services:
   nuxt-app:
     build: .
     ports:
-      - "3000:3000"
+      - '3000:3000'
     environment:
       - NODE_ENV=production
       - DATABASE_URL=${DATABASE_URL}
@@ -335,7 +335,7 @@ services:
     depends_on:
       - postgres
       - redis
-  
+
   postgres:
     image: postgres:15-alpine
     environment:
@@ -344,7 +344,7 @@ services:
       - POSTGRES_PASSWORD=${DB_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
-  
+
   redis:
     image: redis:7-alpine
     volumes:
@@ -370,14 +370,14 @@ module.exports = {
       script: './.output/server/index.mjs',
       env: {
         NODE_ENV: 'production',
-        PORT: 3000
+        PORT: 3000,
       },
       env_production: {
         NODE_ENV: 'production',
-        PORT: 3000
-      }
-    }
-  ]
+        PORT: 3000,
+      },
+    },
+  ],
 }
 ```
 
@@ -388,7 +388,7 @@ module.exports = {
 server {
     listen 80;
     server_name example.com www.example.com;
-    
+
     # Redirect HTTP to HTTPS
     return 301 https://$server_name$request_uri;
 }
@@ -396,34 +396,34 @@ server {
 server {
     listen 443 ssl http2;
     server_name example.com www.example.com;
-    
+
     # SSL configuration
     ssl_certificate /path/to/ssl/cert.pem;
     ssl_certificate_key /path/to/ssl/key.pem;
-    
+
     # Security headers
     add_header X-Frame-Options "SAMEORIGIN" always;
     add_header X-Content-Type-Options "nosniff" always;
     add_header X-XSS-Protection "1; mode=block" always;
-    
+
     # Gzip compression
     gzip on;
     gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
-    
+
     # Static assets
     location /_nuxt/ {
         alias /path/to/app/.output/public/_nuxt/;
         expires 1y;
         add_header Cache-Control "public, immutable";
     }
-    
+
     # Public assets
     location /public/ {
         alias /path/to/app/.output/public/;
         expires 1y;
         add_header Cache-Control "public";
     }
-    
+
     # Proxy to Nuxt.js
     location / {
         proxy_pass http://localhost:3000;
@@ -463,17 +463,17 @@ export default defineNuxtConfig({
           manualChunks: {
             // Vendor libraries
             vendor: ['vue', 'vue-router'],
-            
+
             // UI components
             ui: ['@headlessui/vue', '@heroicons/vue'],
-            
+
             // Utils
-            utils: ['lodash', 'date-fns']
-          }
-        }
-      }
-    }
-  }
+            utils: ['lodash', 'date-fns'],
+          },
+        },
+      },
+    },
+  },
 })
 ```
 
@@ -483,29 +483,29 @@ export default defineNuxtConfig({
 // nuxt.config.ts
 export default defineNuxtConfig({
   modules: ['@nuxt/image'],
-  
+
   image: {
     // Optimize images
     format: ['webp', 'avif'],
     quality: 80,
-    
+
     // Image providers
     providers: {
       cloudinary: {
-        baseURL: 'https://res.cloudinary.com/your-cloud/image/fetch/'
-      }
-    }
+        baseURL: 'https://res.cloudinary.com/your-cloud/image/fetch/',
+      },
+    },
   },
-  
+
   // CSS optimization
   css: ['~/assets/css/main.css'],
-  
+
   postcss: {
     plugins: {
       autoprefixer: {},
-      cssnano: process.env.NODE_ENV === 'production' ? {} : false
-    }
-  }
+      cssnano: process.env.NODE_ENV === 'production' ? {} : false,
+    },
+  },
 })
 ```
 
@@ -516,22 +516,22 @@ export default defineNuxtConfig({
 export default defineNuxtConfig({
   routeRules: {
     // Static pages - cache forever
-    '/': { 
+    '/': {
       prerender: true,
-      headers: { 'cache-control': 's-maxage=31536000' }
+      headers: { 'cache-control': 's-maxage=31536000' },
     },
-    
+
     // API routes - short cache
     '/api/**': {
-      headers: { 'cache-control': 's-maxage=60' }
+      headers: { 'cache-control': 's-maxage=60' },
     },
-    
+
     // Dynamic pages - ISR
     '/blog/**': {
       isr: 3600, // Revalidate every hour
-      headers: { 'cache-control': 's-maxage=3600' }
-    }
-  }
+      headers: { 'cache-control': 's-maxage=3600' },
+    },
+  },
 })
 ```
 
@@ -561,30 +561,27 @@ const isProd = process.env.NODE_ENV === 'production'
 export default defineNuxtConfig({
   // Development-only features
   devtools: { enabled: isDev },
-  
+
   // Production optimizations
   experimental: {
-    payloadExtraction: !isDev
+    payloadExtraction: !isDev,
   },
-  
+
   runtimeConfig: {
     // Server-only
     databaseUrl: process.env.DATABASE_URL,
     apiSecret: process.env.API_SECRET,
-    
+
     // Client-exposed
     public: {
       apiBase: process.env.NUXT_PUBLIC_API_BASE,
       environment: process.env.NODE_ENV,
-      version: process.env.npm_package_version
-    }
+      version: process.env.npm_package_version,
+    },
   },
-  
+
   // Conditional modules
-  modules: [
-    '@nuxt/content',
-    ...(isProd ? ['@nuxtjs/robots'] : [])
-  ]
+  modules: ['@nuxt/content', ...(isProd ? ['@nuxtjs/robots'] : [])],
 })
 ```
 
@@ -600,7 +597,7 @@ stages:
   - deploy
 
 variables:
-  NODE_VERSION: "18"
+  NODE_VERSION: '18'
 
 cache:
   paths:
@@ -648,12 +645,12 @@ deploy:
 // Jenkinsfile
 pipeline {
     agent any
-    
+
     environment {
         NODE_VERSION = '18'
         PM2_HOME = '/var/www/.pm2'
     }
-    
+
     stages {
         stage('Install') {
             steps {
@@ -661,20 +658,20 @@ pipeline {
                 sh 'npm ci'
             }
         }
-        
+
         stage('Test') {
             steps {
                 sh 'npm run lint'
                 sh 'npm run test'
             }
         }
-        
+
         stage('Build') {
             steps {
                 sh 'npm run build'
             }
         }
-        
+
         stage('Deploy') {
             when {
                 branch 'main'
@@ -688,7 +685,7 @@ pipeline {
             }
         }
     }
-    
+
     post {
         always {
             cleanWs()
@@ -703,25 +700,25 @@ pipeline {
 
 ```typescript
 // server/api/health.get.ts
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async event => {
   try {
     // Check database connection
     await $fetch('/api/db/ping')
-    
+
     // Check external APIs
     await $fetch('https://api.external-service.com/health')
-    
+
     return {
       status: 'healthy',
       timestamp: new Date().toISOString(),
-      version: process.env.npm_package_version
+      version: process.env.npm_package_version,
     }
   } catch (error) {
     setResponseStatus(event, 503)
     return {
       status: 'unhealthy',
       error: error.message,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     }
   }
 })
@@ -734,12 +731,12 @@ export default defineEventHandler(async (event) => {
 export default defineNuxtPlugin(() => {
   // Initialize error tracking (e.g., Sentry)
   if (process.client) {
-    window.addEventListener('error', (event) => {
+    window.addEventListener('error', event => {
       console.error('Global error:', event.error)
       // Send to error tracking service
     })
-    
-    window.addEventListener('unhandledrejection', (event) => {
+
+    window.addEventListener('unhandledrejection', event => {
       console.error('Unhandled promise rejection:', event.reason)
       // Send to error tracking service
     })
@@ -791,8 +788,8 @@ npx nuxi typecheck
 // nuxt.config.ts - Debug mode
 export default defineNuxtConfig({
   nitro: {
-    logLevel: process.env.NODE_ENV === 'development' ? 4 : 1
-  }
+    logLevel: process.env.NODE_ENV === 'development' ? 4 : 1,
+  },
 })
 ```
 

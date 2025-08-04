@@ -13,6 +13,7 @@ This directory contains content files for the Nuxt Content module.
 The `@nuxt/content` module automatically processes files in this directory and makes them available via the `queryContent()` API.
 
 Example:
+
 ```typescript
 // Query all guides
 const guides = await queryContent('/guides').find()

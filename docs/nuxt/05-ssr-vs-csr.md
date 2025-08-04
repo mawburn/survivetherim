@@ -7,20 +7,24 @@ Nuxt.js provides flexible rendering strategies to optimize your application for 
 ## Rendering Strategies Overview
 
 ### Server-Side Rendering (SSR)
+
 - Pages are rendered on the server and sent as HTML to the client
 - The client then "hydrates" the HTML to make it interactive
 - Better SEO and faster initial page loads
 
 ### Client-Side Rendering (CSR/SPA)
+
 - Initial page is a minimal HTML shell
 - JavaScript renders the entire application in the browser
 - Faster navigation after initial load
 
 ### Static Site Generation (SSG)
+
 - Pages are pre-rendered at build time
 - Best performance for content that doesn't change frequently
 
 ### Hybrid Rendering
+
 - Mix different rendering strategies per route
 - Optimize each page for its specific needs
 
@@ -41,13 +45,13 @@ Nuxt.js provides flexible rendering strategies to optimize your application for 
 // nuxt.config.ts
 export default defineNuxtConfig({
   ssr: true, // Default - enables SSR
-  
+
   // Optional: Configure SSR behavior
   nitro: {
     prerender: {
-      crawlLinks: true // Pre-render linked pages
-    }
-  }
+      crawlLinks: true, // Pre-render linked pages
+    },
+  },
 })
 ```
 
@@ -60,12 +64,15 @@ export default defineNuxtConfig({
     <h1>{{ post.title }}</h1>
     <p class="meta">Published: {{ formatDate(post.publishedAt) }}</p>
     <div class="content" v-html="post.content"></div>
-    
+
     <!-- This content is rendered on the server -->
     <div class="comments">
       <h3>Comments ({{ comments.length }})</h3>
       <div v-for="comment in comments" :key="comment.id">
-        <p><strong>{{ comment.author }}</strong>: {{ comment.text }}</p>
+        <p>
+          <strong>{{ comment.author }}</strong
+          >: {{ comment.text }}
+        </p>
       </div>
     </div>
   </article>
@@ -85,15 +92,15 @@ useHead({
     { name: 'description', content: post.value.excerpt },
     { property: 'og:title', content: post.value.title },
     { property: 'og:description', content: post.value.excerpt },
-    { property: 'og:image', content: post.value.featuredImage }
-  ]
+    { property: 'og:image', content: post.value.featuredImage },
+  ],
 })
 
 // Handle 404 on server
 if (!post.value) {
   throw createError({
     statusCode: 404,
-    statusMessage: 'Post not found'
+    statusMessage: 'Post not found',
   })
 }
 </script>
@@ -129,17 +136,17 @@ if (!post.value) {
 // nuxt.config.ts
 export default defineNuxtConfig({
   ssr: false, // Disable SSR for SPA mode
-  
+
   // Optional SPA configuration
   app: {
     // Customize the loading page
     head: {
       title: 'Loading...',
       meta: [
-        { name: 'robots', content: 'noindex' } // Prevent indexing during load
-      ]
-    }
-  }
+        { name: 'robots', content: 'noindex' }, // Prevent indexing during load
+      ],
+    },
+  },
 })
 ```
 
@@ -151,13 +158,13 @@ export default defineNuxtConfig({
   routeRules: {
     // Admin pages as SPA
     '/admin/**': { ssr: false },
-    
+
     // Dashboard as SPA
     '/dashboard/**': { ssr: false, prerender: false },
-    
+
     // API routes
-    '/api/**': { cors: true }
-  }
+    '/api/**': { cors: true },
+  },
 })
 ```
 
@@ -168,25 +175,25 @@ export default defineNuxtConfig({
 <template>
   <div class="dashboard">
     <DashboardSidebar />
-    
+
     <main class="dashboard-main">
       <!-- Real-time data updates -->
       <div class="stats-grid">
-        <StatCard 
-          v-for="stat in stats" 
+        <StatCard
+          v-for="stat in stats"
           :key="stat.id"
           :title="stat.title"
           :value="stat.value"
           :trend="stat.trend"
         />
       </div>
-      
+
       <!-- Interactive charts -->
       <div class="charts">
         <LineChart :data="chartData" @point-click="handlePointClick" />
         <BarChart :data="barData" />
       </div>
-      
+
       <!-- Real-time updates -->
       <div class="activity-feed">
         <h3>Recent Activity</h3>
@@ -202,7 +209,7 @@ export default defineNuxtConfig({
 // Client-only page
 definePageMeta({
   ssr: false, // Force CSR for this page
-  middleware: 'auth'
+  middleware: 'auth',
 })
 
 // Real-time data fetching
@@ -214,12 +221,12 @@ const { $socket } = useNuxtApp()
 
 onMounted(() => {
   // Real-time stats updates
-  $socket.on('stats-update', (newStats) => {
+  $socket.on('stats-update', newStats => {
     stats.value = newStats
   })
-  
+
   // Real-time activity feed
-  $socket.on('new-activity', (activity) => {
+  $socket.on('new-activity', activity => {
     activities.value.unshift(activity)
   })
 })
@@ -230,7 +237,7 @@ onUnmounted(() => {
 })
 
 // Interactive chart handlers
-const handlePointClick = (point) => {
+const handlePointClick = point => {
   // Show detailed view
   console.log('Chart point clicked:', point)
 }
@@ -264,44 +271,44 @@ export default defineNuxtConfig({
     '/': { prerender: true },
     '/about': { prerender: true },
     '/contact': { prerender: true },
-    
+
     // Blog posts - ISR (Incremental Static Regeneration)
-    '/blog/**': { 
+    '/blog/**': {
       isr: true,
-      headers: { 
-        'cache-control': 's-maxage=60' // Cache for 60 seconds
-      }
+      headers: {
+        'cache-control': 's-maxage=60', // Cache for 60 seconds
+      },
     },
-    
+
     // Product pages - SSR with caching
-    '/products/**': { 
+    '/products/**': {
       ssr: true,
       headers: {
-        'cache-control': 's-maxage=300' // Cache for 5 minutes
-      }
+        'cache-control': 's-maxage=300', // Cache for 5 minutes
+      },
     },
-    
+
     // User dashboard - CSR only
     '/dashboard/**': { ssr: false },
-    
+
     // Admin panel - CSR with auth
-    '/admin/**': { 
-      ssr: false, 
+    '/admin/**': {
+      ssr: false,
       prerender: false,
       // Custom headers for admin
       headers: {
-        'X-Frame-Options': 'DENY'
-      }
+        'X-Frame-Options': 'DENY',
+      },
     },
-    
+
     // API routes
-    '/api/**': { 
+    '/api/**': {
       cors: true,
       headers: {
-        'Access-Control-Allow-Origin': '*'
-      }
-    }
-  }
+        'Access-Control-Allow-Origin': '*',
+      },
+    },
+  },
 })
 ```
 
@@ -316,7 +323,7 @@ export default defineNuxtConfig({
       <h1>{{ page.title }}</h1>
       <p>{{ page.description }}</p>
     </section>
-    
+
     <!-- Client-only interactive components -->
     <ClientOnly>
       <InteractiveMap :locations="locations" />
@@ -324,10 +331,10 @@ export default defineNuxtConfig({
         <div class="loading">Loading map...</div>
       </template>
     </ClientOnly>
-    
+
     <!-- Lazy-loaded heavy components -->
     <LazyReviewsSection :product-id="productId" />
-    
+
     <!-- Conditional client-side features -->
     <div v-if="$device.isMobile">
       <ClientOnly>
@@ -365,22 +372,20 @@ const { data: posts } = await useFetch('/api/posts', {
   key: 'blog-posts',
   server: true,
   default: () => [],
-  
+
   // Transform data to reduce payload
-  transform: (data) => data.map(post => ({
-    id: post.id,
-    title: post.title,
-    slug: post.slug,
-    excerpt: post.excerpt,
-    publishedAt: post.publishedAt
-  }))
+  transform: data =>
+    data.map(post => ({
+      id: post.id,
+      title: post.title,
+      slug: post.slug,
+      excerpt: post.excerpt,
+      publishedAt: post.publishedAt,
+    })),
 })
 
 // Preload critical data
-await Promise.all([
-  useFetch('/api/categories'),
-  useFetch('/api/featured-posts')
-])
+await Promise.all([useFetch('/api/categories'), useFetch('/api/featured-posts')])
 </script>
 ```
 
@@ -389,13 +394,11 @@ await Promise.all([
 ```vue
 <script setup>
 // Code splitting for large components
-const HeavyChart = defineAsyncComponent(() => 
-  import('~/components/charts/HeavyChart.vue')
-)
+const HeavyChart = defineAsyncComponent(() => import('~/components/charts/HeavyChart.vue'))
 
 // Lazy load data
 const { data: heavyData, pending } = await useLazyFetch('/api/heavy-data', {
-  server: false // Client-only
+  server: false, // Client-only
 })
 
 // Progressive enhancement
@@ -428,13 +431,13 @@ export const useOptimizedFetch = (url: string, options = {}) => {
     return useFetch(url, {
       ...options,
       server: true,
-      client: false
+      client: false,
     })
   } else {
     // Client-side: lazy load for performance
     return useLazyFetch(url, {
       ...options,
-      server: false
+      server: false,
     })
   }
 }
@@ -450,22 +453,22 @@ export default defineNuxtConfig({
   routeRules: {
     // Homepage - static for performance
     '/': { prerender: true },
-    
+
     // Category pages - ISR for fresh content
     '/category/**': { isr: 60 },
-    
+
     // Product pages - SSR for SEO
     '/product/**': { ssr: true },
-    
+
     // User account - CSR for interactions
     '/account/**': { ssr: false },
-    
+
     // Checkout - SSR for reliability
     '/checkout/**': { ssr: true },
-    
+
     // Search - CSR for real-time results
-    '/search': { ssr: false }
-  }
+    '/search': { ssr: false },
+  },
 })
 ```
 
@@ -478,16 +481,16 @@ export default defineNuxtConfig({
     // Static pages
     '/': { prerender: true },
     '/about': { prerender: true },
-    
+
     // Blog posts - ISR for updates
-    '/blog/**': { 
+    '/blog/**': {
       isr: true,
-      headers: { 'cache-control': 's-maxage=3600' }
+      headers: { 'cache-control': 's-maxage=3600' },
     },
-    
+
     // Admin - CSR only
-    '/admin/**': { ssr: false }
-  }
+    '/admin/**': { ssr: false },
+  },
 })
 ```
 
@@ -501,29 +504,29 @@ export default defineNuxtConfig({
     '/': { prerender: true },
     '/features': { prerender: true },
     '/pricing': { prerender: true },
-    
+
     // Documentation - ISR
     '/docs/**': { isr: true },
-    
+
     // Application - CSR
     '/app/**': { ssr: false },
-    '/dashboard/**': { ssr: false }
-  }
+    '/dashboard/**': { ssr: false },
+  },
 })
 ```
 
 ## Decision Matrix
 
-| Use Case | SSR | CSR | Hybrid | Reason |
-|----------|-----|-----|--------|--------|
-| Landing pages | ✅ | ❌ | ✅ | SEO critical |
-| Blog posts | ✅ | ❌ | ✅ | SEO + sharing |
-| Product catalogs | ✅ | ❌ | ✅ | SEO + performance |
-| User dashboards | ❌ | ✅ | ✅ | Interactivity |
-| Admin panels | ❌ | ✅ | ✅ | Rich interactions |
-| Real-time apps | ❌ | ✅ | ✅ | Live updates |
-| Documentation | ✅ | ❌ | ✅ | SEO + fast navigation |
-| E-commerce | 🟡 | ❌ | ✅ | Mixed needs |
+| Use Case         | SSR | CSR | Hybrid | Reason                |
+| ---------------- | --- | --- | ------ | --------------------- |
+| Landing pages    | ✅  | ❌  | ✅     | SEO critical          |
+| Blog posts       | ✅  | ❌  | ✅     | SEO + sharing         |
+| Product catalogs | ✅  | ❌  | ✅     | SEO + performance     |
+| User dashboards  | ❌  | ✅  | ✅     | Interactivity         |
+| Admin panels     | ❌  | ✅  | ✅     | Rich interactions     |
+| Real-time apps   | ❌  | ✅  | ✅     | Live updates          |
+| Documentation    | ✅  | ❌  | ✅     | SEO + fast navigation |
+| E-commerce       | 🟡  | ❌  | ✅     | Mixed needs           |
 
 ## Debugging Rendering Issues
 
@@ -548,14 +551,14 @@ onMounted(() => {
 // nuxt.config.ts
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  
+
   // Debug hydration issues
   debug: process.env.NODE_ENV === 'development',
-  
+
   // Show render timing
   ssr: {
-    noExternal: ['debug']
-  }
+    noExternal: ['debug'],
+  },
 })
 ```
 
@@ -566,9 +569,10 @@ export default defineNuxtConfig({
 // Monitor rendering performance
 onMounted(() => {
   const navigationEntry = performance.getEntriesByType('navigation')[0]
-  
+
   console.log('Time to Interactive:', navigationEntry.loadEventEnd)
-  console.log('First Contentful Paint:', 
+  console.log(
+    'First Contentful Paint:',
     performance.getEntriesByName('first-contentful-paint')[0]?.startTime
   )
 })

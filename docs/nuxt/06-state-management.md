@@ -12,16 +12,16 @@ State management is crucial for building scalable Vue.js applications. This guid
 // composables/useCounter.ts
 export const useCounter = () => {
   const count = ref(0)
-  
+
   const increment = () => count.value++
   const decrement = () => count.value--
-  const reset = () => count.value = 0
-  
+  const reset = () => (count.value = 0)
+
   return {
     count: readonly(count),
     increment,
     decrement,
-    reset
+    reset,
   }
 }
 ```
@@ -38,23 +38,22 @@ export const useAuth = () => {
   const login = async (credentials: LoginCredentials) => {
     isLoading.value = true
     error.value = null
-    
+
     try {
       const response = await $fetch('/api/auth/login', {
         method: 'POST',
-        body: credentials
+        body: credentials,
       })
-      
+
       user.value = response.user
-      
+
       // Store token
       const token = useCookie('auth-token', {
         httpOnly: true,
         secure: true,
-        sameSite: 'strict'
+        sameSite: 'strict',
       })
       token.value = response.token
-      
     } catch (err) {
       error.value = err.message || 'Login failed'
       throw err
@@ -62,7 +61,7 @@ export const useAuth = () => {
       isLoading.value = false
     }
   }
-  
+
   const logout = async () => {
     try {
       await $fetch('/api/auth/logout', { method: 'POST' })
@@ -73,11 +72,11 @@ export const useAuth = () => {
       await navigateTo('/login')
     }
   }
-  
+
   const checkAuth = async () => {
     const token = useCookie('auth-token')
     if (!token.value) return
-    
+
     try {
       const response = await $fetch('/api/auth/me')
       user.value = response.user
@@ -86,7 +85,7 @@ export const useAuth = () => {
       token.value = null
     }
   }
-  
+
   return {
     user: readonly(user),
     isLoading: readonly(isLoading),
@@ -94,7 +93,7 @@ export const useAuth = () => {
     login,
     logout,
     checkAuth,
-    isAuthenticated: computed(() => !!user.value)
+    isAuthenticated: computed(() => !!user.value),
   }
 }
 ```
@@ -139,7 +138,7 @@ const user = useState<User | null>('user', () => null)
 const preferences = useState('preferences', () => ({
   theme: 'light',
   language: 'en',
-  notifications: true
+  notifications: true,
 }))
 ```
 
@@ -162,8 +161,8 @@ onMounted(() => {
   clientState.value = {
     viewport: {
       width: window.innerWidth,
-      height: window.innerHeight
-    }
+      height: window.innerHeight,
+    },
   }
 })
 </script>
@@ -177,30 +176,30 @@ export const useAppState = () => {
   const theme = useState('app.theme', () => 'light')
   const sidebar = useState('app.sidebar', () => false)
   const notifications = useState('app.notifications', () => [])
-  
+
   const toggleTheme = () => {
     theme.value = theme.value === 'light' ? 'dark' : 'light'
   }
-  
+
   const toggleSidebar = () => {
     sidebar.value = !sidebar.value
   }
-  
+
   const addNotification = (notification: Notification) => {
     notifications.value.push({
       ...notification,
       id: Date.now(),
-      timestamp: new Date()
+      timestamp: new Date(),
     })
   }
-  
+
   const removeNotification = (id: number) => {
     const index = notifications.value.findIndex(n => n.id === id)
     if (index > -1) {
       notifications.value.splice(index, 1)
     }
   }
-  
+
   return {
     theme: readonly(theme),
     sidebar: readonly(sidebar),
@@ -208,7 +207,7 @@ export const useAppState = () => {
     toggleTheme,
     toggleSidebar,
     addNotification,
-    removeNotification
+    removeNotification,
   }
 }
 ```
@@ -224,7 +223,7 @@ npm install pinia @pinia/nuxt
 ```typescript
 // nuxt.config.ts
 export default defineNuxtConfig({
-  modules: ['@pinia/nuxt']
+  modules: ['@pinia/nuxt'],
 })
 ```
 
@@ -236,42 +235,42 @@ export const useCounterStore = defineStore('counter', () => {
   // State
   const count = ref(0)
   const name = ref('Counter')
-  
+
   // Getters (computed)
   const doubleCount = computed(() => count.value * 2)
   const isEven = computed(() => count.value % 2 === 0)
-  
+
   // Actions
   const increment = () => {
     count.value++
   }
-  
+
   const decrement = () => {
     count.value--
   }
-  
+
   const reset = () => {
     count.value = 0
   }
-  
+
   const setCount = (value: number) => {
     count.value = value
   }
-  
+
   return {
     // State
     count,
     name,
-    
+
     // Getters
     doubleCount,
     isEven,
-    
+
     // Actions
     increment,
     decrement,
     reset,
-    setCount
+    setCount,
   }
 })
 ```
@@ -300,35 +299,35 @@ export const useAuthStore = defineStore('auth', () => {
   const token = ref<string | null>(null)
   const isLoading = ref(false)
   const error = ref<string | null>(null)
-  
+
   // Getters
   const isAuthenticated = computed(() => !!user.value && !!token.value)
   const isAdmin = computed(() => user.value?.role === 'admin')
   const userName = computed(() => user.value?.name || 'Guest')
-  
+
   // Actions
-  const login = async (credentials: { email: string, password: string }) => {
+  const login = async (credentials: { email: string; password: string }) => {
     isLoading.value = true
     error.value = null
-    
+
     try {
       const response = await $fetch('/api/auth/login', {
         method: 'POST',
-        body: credentials
+        body: credentials,
       })
-      
+
       user.value = response.user
       token.value = response.token
-      
+
       // Persist token
       const tokenCookie = useCookie('auth-token', {
         httpOnly: true,
         secure: true,
         sameSite: 'strict',
-        maxAge: 60 * 60 * 24 * 7 // 7 days
+        maxAge: 60 * 60 * 24 * 7, // 7 days
       })
       tokenCookie.value = response.token
-      
+
       return response
     } catch (err: any) {
       error.value = err.data?.message || 'Login failed'
@@ -337,15 +336,15 @@ export const useAuthStore = defineStore('auth', () => {
       isLoading.value = false
     }
   }
-  
+
   const logout = async () => {
     try {
       if (token.value) {
         await $fetch('/api/auth/logout', {
           method: 'POST',
           headers: {
-            Authorization: `Bearer ${token.value}`
-          }
+            Authorization: `Bearer ${token.value}`,
+          },
         })
       }
     } catch (err) {
@@ -355,46 +354,46 @@ export const useAuthStore = defineStore('auth', () => {
       user.value = null
       token.value = null
       error.value = null
-      
+
       // Clear cookie
       const tokenCookie = useCookie('auth-token')
       tokenCookie.value = null
-      
+
       // Redirect to login
       await navigateTo('/login')
     }
   }
-  
+
   const fetchUser = async () => {
     if (!token.value) return
-    
+
     try {
       const response = await $fetch('/api/auth/me', {
         headers: {
-          Authorization: `Bearer ${token.value}`
-        }
+          Authorization: `Bearer ${token.value}`,
+        },
       })
-      
+
       user.value = response.user
     } catch (err) {
       // Token is invalid, clear auth state
       await logout()
     }
   }
-  
+
   const updateProfile = async (profileData: Partial<User>) => {
     if (!user.value) return
-    
+
     isLoading.value = true
     try {
       const response = await $fetch('/api/auth/profile', {
         method: 'PUT',
         body: profileData,
         headers: {
-          Authorization: `Bearer ${token.value}`
-        }
+          Authorization: `Bearer ${token.value}`,
+        },
       })
-      
+
       user.value = { ...user.value, ...response.user }
       return response
     } catch (err: any) {
@@ -404,7 +403,7 @@ export const useAuthStore = defineStore('auth', () => {
       isLoading.value = false
     }
   }
-  
+
   // Initialize auth state
   const initialize = async () => {
     const tokenCookie = useCookie('auth-token')
@@ -413,25 +412,25 @@ export const useAuthStore = defineStore('auth', () => {
       await fetchUser()
     }
   }
-  
+
   return {
     // State
     user: readonly(user),
     token: readonly(token),
     isLoading: readonly(isLoading),
     error: readonly(error),
-    
+
     // Getters
     isAuthenticated,
     isAdmin,
     userName,
-    
+
     // Actions
     login,
     logout,
     fetchUser,
     updateProfile,
-    initialize
+    initialize,
   }
 })
 ```
@@ -460,66 +459,62 @@ export const useAppStore = defineStore('app', () => {
     notifications: {
       email: true,
       push: true,
-      desktop: false
-    }
+      desktop: false,
+    },
   })
-  
+
   const ui = ref({
     sidebar: {
       isOpen: false,
-      isPinned: false
+      isPinned: false,
     },
     modal: {
       isOpen: false,
       component: null as string | null,
-      props: {} as Record<string, any>
+      props: {} as Record<string, any>,
     },
     loading: {
       global: false,
-      operations: new Set<string>()
-    }
+      operations: new Set<string>(),
+    },
   })
-  
+
   // Getters
   const isDarkMode = computed(() => settings.value.theme === 'dark')
-  const hasNotifications = computed(() => 
-    Object.values(settings.value.notifications).some(Boolean)
-  )
-  const isLoading = computed(() => 
-    ui.value.loading.global || ui.value.loading.operations.size > 0
-  )
-  
+  const hasNotifications = computed(() => Object.values(settings.value.notifications).some(Boolean))
+  const isLoading = computed(() => ui.value.loading.global || ui.value.loading.operations.size > 0)
+
   // Actions
   const updateSettings = (newSettings: Partial<AppSettings>) => {
     settings.value = { ...settings.value, ...newSettings }
     persistSettings()
   }
-  
+
   const toggleTheme = () => {
     settings.value.theme = settings.value.theme === 'light' ? 'dark' : 'light'
     persistSettings()
   }
-  
+
   const toggleSidebar = () => {
     ui.value.sidebar.isOpen = !ui.value.sidebar.isOpen
   }
-  
+
   const openModal = (component: string, props: Record<string, any> = {}) => {
     ui.value.modal = {
       isOpen: true,
       component,
-      props
+      props,
     }
   }
-  
+
   const closeModal = () => {
     ui.value.modal = {
       isOpen: false,
       component: null,
-      props: {}
+      props: {},
     }
   }
-  
+
   const startLoading = (operation?: string) => {
     if (operation) {
       ui.value.loading.operations.add(operation)
@@ -527,7 +522,7 @@ export const useAppStore = defineStore('app', () => {
       ui.value.loading.global = true
     }
   }
-  
+
   const stopLoading = (operation?: string) => {
     if (operation) {
       ui.value.loading.operations.delete(operation)
@@ -535,18 +530,18 @@ export const useAppStore = defineStore('app', () => {
       ui.value.loading.global = false
     }
   }
-  
+
   const persistSettings = async () => {
     try {
       await $fetch('/api/user/settings', {
         method: 'PUT',
-        body: settings.value
+        body: settings.value,
       })
     } catch (err) {
       console.error('Failed to persist settings:', err)
     }
   }
-  
+
   const loadSettings = async () => {
     try {
       const userSettings = await $fetch('/api/user/settings')
@@ -555,17 +550,17 @@ export const useAppStore = defineStore('app', () => {
       console.warn('Failed to load user settings, using defaults')
     }
   }
-  
+
   return {
     // State
     settings: readonly(settings),
     ui: readonly(ui),
-    
+
     // Getters
     isDarkMode,
     hasNotifications,
     isLoading,
-    
+
     // Actions
     updateSettings,
     toggleTheme,
@@ -574,7 +569,7 @@ export const useAppStore = defineStore('app', () => {
     closeModal,
     startLoading,
     stopLoading,
-    loadSettings
+    loadSettings,
   }
 })
 ```
@@ -584,19 +579,19 @@ export const useAppStore = defineStore('app', () => {
 ```vue
 <!-- components/AppHeader.vue -->
 <template>
-  <header :class="{ 'dark': isDarkMode }">
+  <header :class="{ dark: isDarkMode }">
     <div class="header-content">
       <button @click="toggleSidebar" class="sidebar-toggle">
         <Icon name="menu" />
       </button>
-      
+
       <h1>{{ appTitle }}</h1>
-      
+
       <div class="header-actions">
         <button @click="toggleTheme" class="theme-toggle">
           <Icon :name="isDarkMode ? 'sun' : 'moon'" />
         </button>
-        
+
         <div v-if="isAuthenticated" class="user-menu">
           <span>{{ userName }}</span>
           <button @click="logout">Logout</button>
@@ -604,7 +599,7 @@ export const useAppStore = defineStore('app', () => {
         <NuxtLink v-else to="/login">Login</NuxtLink>
       </div>
     </div>
-    
+
     <!-- Global loading indicator -->
     <div v-if="isLoading" class="loading-bar"></div>
   </header>
@@ -634,11 +629,11 @@ export const useTodoStore = defineStore('todo', () => {
   // Use other stores
   const authStore = useAuthStore()
   const appStore = useAppStore()
-  
+
   // State
   const todos = ref<Todo[]>([])
   const filter = ref<'all' | 'active' | 'completed'>('all')
-  
+
   // Getters
   const filteredTodos = computed(() => {
     switch (filter.value) {
@@ -650,48 +645,46 @@ export const useTodoStore = defineStore('todo', () => {
         return todos.value
     }
   })
-  
-  const completedCount = computed(() => 
-    todos.value.filter(todo => todo.completed).length
-  )
-  
+
+  const completedCount = computed(() => todos.value.filter(todo => todo.completed).length)
+
   // Actions
   const fetchTodos = async () => {
     if (!authStore.isAuthenticated) return
-    
+
     appStore.startLoading('todos')
     try {
       const response = await $fetch('/api/todos', {
         headers: {
-          Authorization: `Bearer ${authStore.token}`
-        }
+          Authorization: `Bearer ${authStore.token}`,
+        },
       })
       todos.value = response.todos
     } finally {
       appStore.stopLoading('todos')
     }
   }
-  
+
   const addTodo = async (text: string) => {
     const optimisticTodo = {
       id: Date.now(),
       text,
       completed: false,
-      userId: authStore.user?.id
+      userId: authStore.user?.id,
     }
-    
+
     // Optimistic update
     todos.value.push(optimisticTodo)
-    
+
     try {
       const response = await $fetch('/api/todos', {
         method: 'POST',
         body: { text },
         headers: {
-          Authorization: `Bearer ${authStore.token}`
-        }
+          Authorization: `Bearer ${authStore.token}`,
+        },
       })
-      
+
       // Replace optimistic todo with server response
       const index = todos.value.findIndex(t => t.id === optimisticTodo.id)
       if (index > -1) {
@@ -706,14 +699,14 @@ export const useTodoStore = defineStore('todo', () => {
       throw err
     }
   }
-  
+
   return {
     todos: readonly(todos),
     filter,
     filteredTodos,
     completedCount,
     fetchTodos,
-    addTodo
+    addTodo,
   }
 })
 ```
@@ -730,7 +723,7 @@ export const usePersistedState = <T>(
   storage: 'localStorage' | 'sessionStorage' = 'localStorage'
 ) => {
   const state = ref<T>(defaultValue)
-  
+
   // Load from storage on client
   onMounted(() => {
     try {
@@ -742,11 +735,11 @@ export const usePersistedState = <T>(
       console.warn(`Failed to load ${key} from ${storage}:`, err)
     }
   })
-  
+
   // Save to storage when state changes
   watch(
     state,
-    (newValue) => {
+    newValue => {
       try {
         window[storage].setItem(key, JSON.stringify(newValue))
       } catch (err) {
@@ -755,7 +748,7 @@ export const usePersistedState = <T>(
     },
     { deep: true }
   )
-  
+
   return state
 }
 ```
@@ -764,18 +757,14 @@ export const usePersistedState = <T>(
 
 ```typescript
 // composables/useCookieState.ts
-export const useCookieState = <T>(
-  key: string,
-  defaultValue: T,
-  cookieOptions: any = {}
-) => {
+export const useCookieState = <T>(key: string, defaultValue: T, cookieOptions: any = {}) => {
   const cookie = useCookie<T>(key, {
     default: () => defaultValue,
     serialize: JSON.stringify,
     deserialize: JSON.parse,
-    ...cookieOptions
+    ...cookieOptions,
   })
-  
+
   return cookie
 }
 ```
@@ -794,21 +783,17 @@ export const useFormState = <T extends Record<string, any>>(
   const errors = ref<Partial<Record<keyof T, string>>>({})
   const touched = ref<Partial<Record<keyof T, boolean>>>({})
   const isSubmitting = ref(false)
-  
-  const isDirty = computed(() => 
-    JSON.stringify(data) !== JSON.stringify(initialData)
-  )
-  
-  const isValid = computed(() => 
-    Object.keys(errors.value).length === 0
-  )
-  
+
+  const isDirty = computed(() => JSON.stringify(data) !== JSON.stringify(initialData))
+
+  const isValid = computed(() => Object.keys(errors.value).length === 0)
+
   const validate = (field?: keyof T) => {
     if (!validationRules) return true
-    
+
     const fieldsToValidate = field ? [field] : Object.keys(validationRules)
     let isFormValid = true
-    
+
     for (const fieldName of fieldsToValidate) {
       const rule = validationRules[fieldName as keyof T]
       if (rule) {
@@ -821,26 +806,26 @@ export const useFormState = <T extends Record<string, any>>(
         }
       }
     }
-    
+
     return isFormValid
   }
-  
+
   const setFieldValue = (field: keyof T, value: any) => {
     data[field] = value
     touched.value[field] = true
     validate(field)
   }
-  
+
   const reset = () => {
     Object.assign(data, initialData)
     errors.value = {}
     touched.value = {}
     isSubmitting.value = false
   }
-  
+
   const submit = async (onSubmit: (data: T) => Promise<any>) => {
     if (!validate()) return
-    
+
     isSubmitting.value = true
     try {
       const result = await onSubmit(data)
@@ -849,7 +834,7 @@ export const useFormState = <T extends Record<string, any>>(
       isSubmitting.value = false
     }
   }
-  
+
   return {
     data,
     errors: readonly(errors),
@@ -860,7 +845,7 @@ export const useFormState = <T extends Record<string, any>>(
     setFieldValue,
     validate,
     reset,
-    submit
+    submit,
   }
 }
 ```
@@ -878,19 +863,19 @@ export const useAsyncState = <T>(
   } = {}
 ) => {
   const { immediate = true, resetOnExecute = true } = options
-  
+
   const data = ref<T | null>(initialValue)
   const error = ref<Error | null>(null)
   const isLoading = ref(false)
-  
+
   const execute = async () => {
     isLoading.value = true
     error.value = null
-    
+
     if (resetOnExecute) {
       data.value = null
     }
-    
+
     try {
       const result = await asyncFn()
       data.value = result
@@ -902,23 +887,23 @@ export const useAsyncState = <T>(
       isLoading.value = false
     }
   }
-  
+
   if (immediate) {
     execute()
   }
-  
+
   return {
     data: readonly(data),
     error: readonly(error),
     isLoading: readonly(isLoading),
-    execute
+    execute,
   }
 }
 ```
 
 ## Best Practices
 
-1. **Choose the right tool**: 
+1. **Choose the right tool**:
    - Simple reactive state for local component state
    - Composables for shared logic
    - `useState` for simple Nuxt-wide state

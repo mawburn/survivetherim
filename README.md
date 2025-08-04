@@ -1,10 +1,10 @@
-# SurviveTheRim
+# Survive the Rim
 
 An interactive guide for RimWorld players.
 
 ## About
 
-SurviveTheRim helps players learn and master RimWorld through searchable guides and interactive tools. Find the answers you need quickly, plan your base efficiently, and survive on the rim with confidence.
+Survive th Rim helps players learn and master RimWorld through searchable guides and interactive tools. Find the answers you need quickly, plan your base efficiently, and survive on the rim with confidence.
 
 Built for players who want more than static wikis but don't have time to watch hour-long tutorials.
 
