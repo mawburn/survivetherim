@@ -2,7 +2,7 @@ import Database from 'better-sqlite3'
 import { readFileSync } from 'fs'
 import { join } from 'path'
 
-export default defineEventHandler(async event => {
+export default defineEventHandler(async _event => {
   try {
     // Initialize SQLite database
     const dbPath = join(process.cwd(), 'content/database/rimworld.db')

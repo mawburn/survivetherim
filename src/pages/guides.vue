@@ -21,14 +21,14 @@
           </div>
 
           <div class="filters">
-            <select v-model="selectedDifficulty" @change="loadGuides" class="filter-select">
+            <select v-model="selectedDifficulty" class="filter-select" @change="loadGuides">
               <option value="">All Difficulties</option>
               <option value="Beginner">Beginner</option>
               <option value="Intermediate">Intermediate</option>
               <option value="Advanced">Advanced</option>
             </select>
 
-            <select v-model="selectedCategory" @change="loadGuides" class="filter-select">
+            <select v-model="selectedCategory" class="filter-select" @change="loadGuides">
               <option value="">All Categories</option>
               <option value="Basics">Basics</option>
               <option value="Combat">Combat</option>
@@ -43,7 +43,7 @@
     <div class="guides-content">
       <!-- Loading State -->
       <div v-if="loading" class="loading-state">
-        <div class="loading-spinner"></div>
+        <div class="loading-spinner" />
         <p>Loading guides...</p>
       </div>
 
@@ -65,7 +65,7 @@
           <div class="guide-content">
             <p class="guide-description">{{ guide.description }}</p>
 
-            <div class="guide-tags" v-if="guide.tags && guide.tags.length > 0">
+            <div v-if="guide.tags && guide.tags.length > 0" class="guide-tags">
               <span v-for="tag in guide.tags" :key="tag" class="tag">
                 {{ tag }}
               </span>
@@ -77,7 +77,7 @@
               <NuxtLink :to="`/guides/${guide.slug}`" class="btn btn--primary btn--small">
                 Read Guide
               </NuxtLink>
-              <button @click="toggleFavorite(guide)" class="btn btn--secondary btn--small">
+              <button class="btn btn--secondary btn--small" @click="toggleFavorite(guide)">
                 {{ favorites.includes(guide.id) ? '★' : '☆' }}
                 {{ favorites.includes(guide.id) ? 'Favorited' : 'Favorite' }}
               </button>
@@ -98,8 +98,8 @@
             }}
           </p>
           <BaseButton
-            @click="clearFilters"
             v-if="searchQuery || selectedDifficulty || selectedCategory"
+            @click="clearFilters"
           >
             Clear Filters
           </BaseButton>
@@ -109,10 +109,10 @@
       <!-- Pagination -->
       <div v-if="pagination.total > pagination.limit" class="pagination">
         <BaseButton
-          @click="loadPreviousPage"
           :disabled="pagination.offset === 0"
           variant="secondary"
           size="small"
+          @click="loadPreviousPage"
         >
           Previous
         </BaseButton>
@@ -123,10 +123,10 @@
         </span>
 
         <BaseButton
-          @click="loadNextPage"
           :disabled="!pagination.hasMore"
           variant="secondary"
           size="small"
+          @click="loadNextPage"
         >
           Next
         </BaseButton>

@@ -12,19 +12,19 @@
         <p class="page-description">Generate and manage your virtual RimWorld colony</p>
 
         <div class="colony-controls">
-          <BaseButton @click="generateNewColonists" :loading="isGenerating">
+          <BaseButton :loading="isGenerating" @click="generateNewColonists">
             Generate New Colony
           </BaseButton>
 
           <BaseButton
             variant="secondary"
-            @click="addRandomColonist"
             :disabled="colonists.length >= 12"
+            @click="addRandomColonist"
           >
             Add Colonist ({{ colonists.length }}/12)
           </BaseButton>
 
-          <BaseButton variant="danger" @click="clearColony" :disabled="colonists.length === 0">
+          <BaseButton variant="danger" :disabled="colonists.length === 0" @click="clearColony">
             Clear Colony
           </BaseButton>
         </div>
@@ -68,7 +68,7 @@
       </section>
 
       <!-- Mood Distribution -->
-      <section class="mood-section" v-if="colonists.length > 0">
+      <section v-if="colonists.length > 0" class="mood-section">
         <h2 class="section-title">Mood Distribution</h2>
 
         <BaseCard variant="elevated">
@@ -80,7 +80,7 @@
                   class="mood-bar-fill"
                   :style="{ width: `${mood.percentage}%` }"
                   :class="getMoodBarClass(mood.name)"
-                ></div>
+                />
               </div>
               <span class="mood-count">{{ mood.count }}</span>
             </div>
@@ -101,7 +101,7 @@
             <p class="empty-description">
               Generate a new colony to get started with your RimWorld simulation
             </p>
-            <BaseButton @click="generateNewColonists" :loading="isGenerating">
+            <BaseButton :loading="isGenerating" @click="generateNewColonists">
               Generate Colony
             </BaseButton>
           </div>
@@ -126,7 +126,7 @@
           <template #header>
             <div class="flex justify-between items-center">
               <h3 class="text-xl font-bold">{{ selectedColonist.name }} Details</h3>
-              <button @click="selectedColonist = null" class="close-btn">&times;</button>
+              <button class="close-btn" @click="selectedColonist = null">&times;</button>
             </div>
           </template>
 
@@ -172,10 +172,10 @@
 
           <template #footer>
             <div class="modal-actions">
-              <BaseButton @click="handleAssignTask(selectedColonist)" size="small">
+              <BaseButton size="small" @click="handleAssignTask(selectedColonist)">
                 Assign Task
               </BaseButton>
-              <BaseButton variant="secondary" @click="selectedColonist = null" size="small">
+              <BaseButton variant="secondary" size="small" @click="selectedColonist = null">
                 Close
               </BaseButton>
             </div>

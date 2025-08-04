@@ -118,7 +118,7 @@
           <div class="component-demo">
             <h3 class="component-title">Form Components</h3>
             <div class="demo-content">
-              <form @submit.prevent="submitForm" class="demo-form">
+              <form class="demo-form" @submit.prevent="submitForm">
                 <BaseInput
                   v-model="form.name"
                   label="Colonist Name"
@@ -156,7 +156,7 @@
                 </div>
 
                 <div class="counter-controls">
-                  <BaseButton size="small" @click="counter--" :disabled="counter <= 0">
+                  <BaseButton size="small" :disabled="counter <= 0" @click="counter--">
                     -
                   </BaseButton>
                   <BaseButton size="small" variant="secondary" @click="counter = 0">
@@ -178,7 +178,7 @@
           <template #header>
             <div class="flex justify-between items-center">
               <h3 class="text-xl font-bold">{{ selectedColonist.name }}</h3>
-              <button @click="selectedColonist = null" class="close-btn">&times;</button>
+              <button class="close-btn" @click="selectedColonist = null">&times;</button>
             </div>
           </template>
 

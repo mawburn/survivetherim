@@ -1,6 +1,19 @@
 import Database from 'better-sqlite3'
 import { join } from 'path'
 
+interface Guide {
+  id: number
+  title: string
+  slug: string
+  description: string
+  content: string
+  difficulty: string
+  category: string
+  tags: string
+  created_at: string
+  updated_at: string
+}
+
 export default defineEventHandler(async event => {
   try {
     const slug = getRouterParam(event, 'slug')
@@ -15,7 +28,7 @@ export default defineEventHandler(async event => {
     const dbPath = join(process.cwd(), 'content/database/rimworld.db')
     const db = new Database(dbPath)
 
-    const guide = db.prepare('SELECT * FROM guides WHERE slug = ?').get(slug) as any
+    const guide = db.prepare('SELECT * FROM guides WHERE slug = ?').get(slug) as Guide | undefined
 
     if (!guide) {
       db.close()
@@ -34,10 +47,10 @@ export default defineEventHandler(async event => {
     db.close()
 
     return guideWithParsedTags
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error fetching guide:', error)
 
-    if (error.statusCode) {
+    if (error && typeof error === 'object' && 'statusCode' in error) {
       throw error
     }
 

@@ -1,6 +1,19 @@
 import Database from 'better-sqlite3'
 import { join } from 'path'
 
+interface Guide {
+  id: number
+  title: string
+  slug: string
+  description: string
+  content: string
+  difficulty: string
+  category: string
+  tags: string
+  created_at: string
+  updated_at: string
+}
+
 export default defineEventHandler(async event => {
   try {
     const query = getQuery(event)
@@ -10,7 +23,7 @@ export default defineEventHandler(async event => {
     const db = new Database(dbPath)
 
     let sql = 'SELECT * FROM guides WHERE 1=1'
-    const params: any[] = []
+    const params: unknown[] = []
 
     // Add filters
     if (category) {
@@ -36,14 +49,14 @@ export default defineEventHandler(async event => {
     const guides = db.prepare(sql).all(...params)
 
     // Parse JSON tags
-    const guidesWithParsedTags = guides.map((guide: any) => ({
+    const guidesWithParsedTags = (guides as Guide[]).map(guide => ({
       ...guide,
       tags: guide.tags ? JSON.parse(guide.tags) : [],
     }))
 
     // Get total count for pagination
     let countSql = 'SELECT COUNT(*) as total FROM guides WHERE 1=1'
-    const countParams: any[] = []
+    const countParams: unknown[] = []
 
     if (category) {
       countSql += ' AND category = ?'

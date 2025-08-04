@@ -15,7 +15,7 @@
       </div>
 
       <div class="controls">
-        <BaseButton @click="generate" :loading="isGenerating" :disabled="isGenerating">
+        <BaseButton :loading="isGenerating" :disabled="isGenerating" @click="generate">
           Generate {{ type }}
         </BaseButton>
 

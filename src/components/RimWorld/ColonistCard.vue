@@ -22,7 +22,7 @@
               class="health-fill"
               :style="{ width: `${colonist.health}%` }"
               :class="healthBarClass"
-            ></div>
+            />
           </div>
         </div>
       </div>
