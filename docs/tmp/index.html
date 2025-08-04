@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RimWorld Beginner's Guide & Cheat Sheet</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <header>
+    <h1>RimWorld Beginner's Guide & Cheat Sheet</h1>
+    <p class="subtitle">From a 4,000+ hour veteran player</p>
+  </header>
+
+  <nav id="nav-menu">
+    <div class="nav-toggle" onclick="toggleNav()">
+      <span class="nav-current">Game Start</span>
+      <svg class="nav-arrow" width="12" height="12" viewBox="0 0 12 12">
+        <path d="M2 4l4 4 4-4" stroke="currentColor" fill="none" stroke-width="2" />
+      </svg>
+    </div>
+    <div class="nav-dropdown">
+      <button onclick="scrollToSection('start')">Game Start</button>
+      <button onclick="scrollToSection('setup')">Initial Setup</button>
+      <button onclick="scrollToSection('base')">Base Building</button>
+      <button onclick="scrollToSection('management')">Colony Management</button>
+      <button onclick="scrollToSection('combat')">Combat & Defense</button>
+      <button onclick="scrollToSection('tips')">Pro Tips</button>
+    </div>
+  </nav>
+
+  <div class="progress-bar">
+    <div class="progress-fill"></div>
+  </div>
+
+  <main>
+    <section id="start" class="guide-section">
+      <h2>Starting Your Colony</h2>
+
+      <div class="info-card">
+        <h3>Scenario Selection</h3>
+        <ul>
+          <li><strong>Crashlanded (Recommended):</strong> 3 colonists, industrial tech, balanced
+            start</li>
+          <li><strong>Lost Tribe:</strong> 5 colonists, primitive tech, slower research</li>
+          <li><strong>Rich Explorer:</strong> 1 colonist, advanced tech, lots of resources</li>
+          <li><strong>Naked Brutality:</strong> 1 colonist, no resources (hardest)</li>
+        </ul>
+      </div>
+
+      <div class="info-card">
+        <h3>Storyteller Choice</h3>
+        <ul>
+          <li><strong>Phoebe Chillax:</strong> Easiest, relaxed pacing</li>
+          <li><strong>Cassandra Classic:</strong> Consistent difficulty curve, predictable raids
+          </li>
+          <li><strong>Randy Random:</strong> Unpredictable events, can be very hard</li>
+        </ul>
+      </div>
+
+      <div class="info-card">
+        <h3>Map Selection</h3>
+        <ul>
+          <li><strong>Biome:</strong> Pick Temperate Forest for beginners</li>
+          <li><strong>Terrain:</strong> Small Hills recommended (balance of space and resources)
+          </li>
+          <li><strong>Growing Period:</strong> 40-60 days minimum, or year-round (60/60)</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="setup" class="guide-section">
+      <h2>Character Selection & Initial Setup</h2>
+
+      <div class="info-card">
+        <h3>Character Selection Rules</h3>
+        <ul>
+          <li>Each skill should have at least one colonist with a passion (flame icon)</li>
+          <li>Avoid colonists who can't do violence</li>
+          <li>Avoid colonists over 50 (health issues)</li>
+          <li>Key skills needed: Medical, Cooking, Construction, Plants, Mining</li>
+        </ul>
+
+        <div class="tip">
+          <strong>Passion System:</strong>
+          <ul>
+            <li>No passion = 35% learning speed</li>
+            <li>Minor passion (1 flame) = 100% learning speed</li>
+            <li>Major passion (2 flames) = 150% learning speed</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <h3>First Actions (In Order)</h3>
+        <ol>
+          <li>Pause game (Spacebar)</li>
+          <li>Unforbid all items (Architect → Orders → Allow All)</li>
+          <li>Set work priorities (Work tab → Manual priorities)</li>
+          <li>Plan your base location (13x13 tiles)</li>
+          <li>Create stockpile zone inside base area</li>
+          <li>Create growing zone on fertile soil</li>
+          <li>Equip weapons and armor</li>
+        </ol>
+      </div>
+
+      <div class="info-card">
+        <h3>Work Priority Setup</h3>
+        <table>
+          <tr>
+            <th>Task</th>
+            <th>Priority</th>
+            <th>Notes</th>
+          </tr>
+          <tr>
+            <td>Firefight</td>
+            <td>1</td>
+            <td>Always highest priority</td>
+          </tr>
+          <tr>
+            <td>Patient/Doctor</td>
+            <td>1</td>
+            <td>Critical for survival</td>
+          </tr>
+          <tr>
+            <td>Basic/Warden</td>
+            <td>1</td>
+            <td>For switches, prisoners</td>
+          </tr>
+          <tr>
+            <td>Cook/Hunt</td>
+            <td>2</td>
+            <td>Food production</td>
+          </tr>
+          <tr>
+            <td>Construction</td>
+            <td>2</td>
+            <td>Base building</td>
+          </tr>
+          <tr>
+            <td>Growing/Mining</td>
+            <td>3</td>
+            <td>Resource gathering</td>
+          </tr>
+          <tr>
+            <td>Crafting/Art</td>
+            <td>3</td>
+            <td>Equipment and mood</td>
+          </tr>
+        </table>
+      </div>
+    </section>
+
+    <section id="base" class="guide-section">
+      <h2>Base Building Guide</h2>
+
+      <div class="info-card">
+        <h3>Initial Base (Day 1)</h3>
+        <ul>
+          <li>Build 13x13 wooden walls with door</li>
+          <li>Place stockpile zone inside</li>
+          <li>Add 3 beds before nightfall</li>
+          <li>Build horseshoe pin for recreation</li>
+          <li>Add torch lamp for light</li>
+          <li>Create growing zone (90 tiles of rice)</li>
+        </ul>
+      </div>
+
+      <div class="info-card">
+        <h3>Essential Buildings (Days 2-5)</h3>
+        <ul>
+          <li><strong>Research Bench:</strong> Start with Batteries research</li>
+          <li><strong>Table & Chairs:</strong> Prevents "ate without table" mood debuff</li>
+          <li><strong>Butcher Table:</strong> Process hunted animals</li>
+          <li><strong>Stone Cutting Table:</strong> Make stone blocks for fireproof walls</li>
+        </ul>
+      </div>
+
+      <div class="info-card">
+        <h3>Power & Temperature</h3>
+        <ul>
+          <li><strong>Wind Turbine:</strong> Place over crops (no trees to block)</li>
+          <li><strong>Solar Panels:</strong> Consistent daytime power</li>
+          <li><strong>Batteries:</strong> Store excess power</li>
+          <li><strong>Freezer Setup:</strong>
+            <ul>
+              <li>Small room next to base</li>
+              <li>Cooler with blue side facing in</li>
+              <li>Set to -5°C</li>
+              <li>Don't roof the exhaust area</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+      <div class="tip">
+        <strong>Wall Upgrade Path:</strong> Wood → Stone (marble/granite) → Steel (avoid -
+        flammable!)
+      </div>
+    </section>
+
+    <section id="management" class="guide-section">
+      <h2>Colony Management</h2>
+
+      <div class="info-card">
+        <h3>Food Management</h3>
+        <ul>
+          <li><strong>Rice:</strong> Fastest growing, labor intensive</li>
+          <li><strong>Corn:</strong> Slow growing, less labor</li>
+          <li><strong>Healroot:</strong> Essential for medicine</li>
+          <li><strong>Cotton:</strong> For clothing production</li>
+        </ul>
+        <div class="tip">
+          Cook simple meals to avoid mood debuffs. Set bill to "Do until you have 10" with "Pause
+          when satisfied" at 4.
+        </div>
+      </div>
+
+      <div class="info-card">
+        <h3>Mood Management</h3>
+        <ul>
+          <li>Individual bedrooms (eventually)</li>
+          <li>Impressive dining/rec room</li>
+          <li>Art sculptures in common areas</li>
+          <li>Comfortable furniture</li>
+          <li>Clean environment</li>
+          <li>Variety in recreation</li>
+        </ul>
+      </div>
+
+      <div class="info-card">
+        <h3>Research Priority</h3>
+        <ol>
+          <li>Batteries</li>
+          <li>Solar Panels</li>
+          <li>Smithing</li>
+          <li>Machining</li>
+          <li>Microelectronics</li>
+          <li>Gun Smithing (for weapons)</li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="combat" class="guide-section">
+      <h2>Combat & Defense</h2>
+
+      <div class="info-card">
+        <h3>Defense Setup</h3>
+        <ul>
+          <li><strong>Spike Traps:</strong> Place in corridors leading to base</li>
+          <li><strong>Doors Between Traps:</strong> Colonists avoid triggering them</li>
+          <li><strong>Barricades:</strong> Cover for shooters</li>
+          <li><strong>Choke Points:</strong> Force enemies into narrow spaces</li>
+        </ul>
+      </div>
+
+      <div class="info-card">
+        <h3>Combat Tactics</h3>
+        <ul>
+          <li><strong>Kiting:</strong> Shoot and retreat against melee enemies</li>
+          <li><strong>Focus Fire:</strong> All colonists target same enemy</li>
+          <li><strong>Draft Mode:</strong> Press 'R' for manual control</li>
+          <li><strong>Downing Raiders:</strong> Use blunt weapons to recruit</li>
+        </ul>
+      </div>
+
+      <div class="info-card">
+        <h3>Prisoner Management</h3>
+        <ul>
+          <li>Build separate prisoner room</li>
+          <li>Set bed to "For Prisoners"</li>
+          <li>Assign warden with high Social skill</li>
+          <li>Choose: Recruit, Release, or Harvest Organs</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="tips" class="guide-section">
+      <h2>Pro Tips & Shortcuts</h2>
+
+      <div class="info-card">
+        <h3>Keyboard Shortcuts</h3>
+        <ul>
+          <li><kbd>Space</kbd> - Pause/Unpause</li>
+          <li><kbd>1</kbd>, <kbd>2</kbd>, <kbd>3</kbd> - Game speed</li>
+          <li><kbd>R</kbd> - Draft/Undraft</li>
+          <li><kbd>B</kbd> - Attack command</li>
+          <li><kbd>Q</kbd>/<kbd>E</kbd> - Rotate objects</li>
+          <li><kbd>Shift + Click</kbd> - Queue orders</li>
+        </ul>
+      </div>
+
+      <div class="info-card">
+        <h3>Advanced Tips</h3>
+        <ul>
+          <li>Animals can haul - train them!</li>
+          <li>Shelves stack more items in less space</li>
+          <li>Organs sell for huge profits</li>
+          <li>Stone chunks provide 20 blocks each</li>
+          <li>Set bills to "Drop on floor" to save hauling time</li>
+          <li>Home zone determines cleaning/repair area</li>
+          <li>Double-click to select all of same type</li>
+        </ul>
+      </div>
+
+      <div class="info-card warning">
+        <h3>Common Mistakes to Avoid</h3>
+        <ul>
+          <li>Building with steel (it's flammable!)</li>
+          <li>Forgetting to set cooler temperature</li>
+          <li>Not managing clothing quality (51% minimum)</li>
+          <li>Ignoring mood management</li>
+          <li>Fighting in the open instead of choke points</li>
+          <li>Not having enough medicine stockpiled</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Remember: Every colony has a story. Embrace the chaos!</p>
+  </footer>
+
+  <script>
+    function scrollToSection(sectionId) {
+      document.getElementById(sectionId).scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+      // Close dropdown on mobile
+      document.querySelector('.nav-dropdown').classList.remove('show');
+    }
+
+    function toggleNav() {
+      document.querySelector('.nav-dropdown').classList.toggle('show');
+      document.querySelector('.nav-arrow').classList.toggle('rotated');
+    }
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('#nav-menu')) {
+        document.querySelector('.nav-dropdown').classList.remove('show');
+        document.querySelector('.nav-arrow').classList.remove('rotated');
+      }
+    });
+
+    // Update current section and progress bar
+    window.addEventListener('scroll', () => {
+      const sections = document.querySelectorAll('.guide-section');
+      const navCurrent = document.querySelector('.nav-current');
+      const progressBar = document.querySelector('.progress-fill');
+
+      // Update progress bar
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      progressBar.style.width = scrolled + '%';
+
+      // Update current section
+      let current = 'Game Start';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        if (scrollY >= (sectionTop - 100)) {
+          const sectionTitle = section.querySelector('h2').textContent;
+          current = sectionTitle;
+        }
+      });
+      navCurrent.textContent = current;
+    });
+  </script>
+</body>
+
+</html>
