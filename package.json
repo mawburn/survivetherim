@@ -15,11 +15,6 @@
     "format": "prettier --write .",
     "typecheck": "nuxi typecheck"
   },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "better-sqlite3"
-    ]
-  },
   "dependencies": {
     "@nuxt/content": "^3.6.3",
     "@nuxt/eslint": "^1.7.1",
@@ -28,14 +23,12 @@
     "@nuxt/image": "^1.11.0",
     "@nuxt/scripts": "^0.11.10",
     "@nuxt/test-utils": "^3.19.2",
-    "better-sqlite3": "^12.2.0",
     "nuxt": "^3.17.7",
     "vue": "^3.5.18",
     "vue-router": "^4.5.1"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.1.11",
-    "@types/better-sqlite3": "^7.6.13",
     "@typescript-eslint/eslint-plugin": "^8.39.0",
     "eslint": "^9.32.0",
     "eslint-plugin-simple-import-sort": "^12.1.1",

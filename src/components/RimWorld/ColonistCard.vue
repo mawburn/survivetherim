@@ -1,25 +1,25 @@
 <template>
-  <BaseCard variant="elevated" class="colonist-card">
+  <BaseCard variant="elevated" class="max-w-sm">
     <template #header>
       <div class="flex items-center justify-between">
         <h3 class="text-lg font-bold">{{ colonist.name }}</h3>
-        <span :class="moodClass" class="mood-indicator">
+        <span :class="moodClass" class="px-2 py-1 rounded-full text-xs font-semibold">
           {{ colonist.mood }}
         </span>
       </div>
     </template>
 
     <div class="colonist-info">
-      <div class="stats-grid">
-        <div class="stat">
-          <span class="stat-label">Age</span>
-          <span class="stat-value">{{ colonist.age }}</span>
+      <div class="grid grid-cols-2 gap-4 mb-4">
+        <div class="flex flex-col">
+          <span class="text-xs text-gray-500 font-medium">Age</span>
+          <span class="text-lg font-bold">{{ colonist.age }}</span>
         </div>
-        <div class="stat">
-          <span class="stat-label">Health</span>
-          <div class="health-bar">
+        <div class="flex flex-col">
+          <span class="text-xs text-gray-500 font-medium">Health</span>
+          <div class="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
             <div
-              class="health-fill"
+              class="h-full transition-all duration-300"
               :style="{ width: `${colonist.health}%` }"
               :class="healthBarClass"
             />
@@ -27,31 +27,39 @@
         </div>
       </div>
 
-      <div class="skills-section">
-        <h4 class="skills-title">Skills</h4>
-        <div class="skills-list">
-          <div v-for="skill in topSkills" :key="skill.name" class="skill-item">
-            <span class="skill-name">{{ skill.name }}</span>
-            <div class="skill-level">
-              <div class="skill-stars">
+      <div class="mb-4">
+        <h4 class="text-sm font-semibold text-gray-700 mb-2">Skills</h4>
+        <div class="space-y-1">
+          <div
+            v-for="skill in topSkills"
+            :key="skill.name"
+            class="flex items-center justify-between"
+          >
+            <span class="text-sm">{{ skill.name }}</span>
+            <div class="flex items-center gap-2">
+              <div class="flex gap-1">
                 <span
                   v-for="star in 10"
                   :key="star"
-                  :class="['star', { 'star--filled': star <= skill.level }]"
+                  :class="['text-xs', star <= skill.level ? 'text-yellow-400' : 'text-gray-300']"
                 >
                   ★
                 </span>
               </div>
-              <span class="skill-number">{{ skill.level }}</span>
+              <span class="text-xs font-mono text-gray-600">{{ skill.level }}</span>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="traits-section">
-        <h4 class="traits-title">Traits</h4>
-        <div class="traits-list">
-          <span v-for="trait in colonist.traits" :key="trait" class="trait-tag">
+      <div class="mb-4">
+        <h4 class="text-sm font-semibold text-gray-700 mb-2">Traits</h4>
+        <div class="flex flex-wrap gap-1">
+          <span
+            v-for="trait in colonist.traits"
+            :key="trait"
+            class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full"
+          >
             {{ trait }}
           </span>
         </div>
@@ -59,7 +67,7 @@
     </div>
 
     <template #footer>
-      <div class="actions">
+      <div class="flex gap-2">
         <BaseButton size="small" @click="assignTask"> Assign Task </BaseButton>
         <BaseButton size="small" variant="secondary" @click="viewDetails">
           View Details
@@ -126,87 +134,3 @@ const viewDetails = () => {
   emit('view-details', props.colonist)
 }
 </script>
-
-<style scoped>
-.colonist-card {
-  @apply max-w-sm;
-}
-
-.mood-indicator {
-  @apply px-2 py-1 rounded-full text-xs font-semibold;
-}
-
-.stats-grid {
-  @apply grid grid-cols-2 gap-4 mb-4;
-}
-
-.stat {
-  @apply flex flex-col;
-}
-
-.stat-label {
-  @apply text-xs text-gray-500 font-medium;
-}
-
-.stat-value {
-  @apply text-lg font-bold;
-}
-
-.health-bar {
-  @apply w-full h-2 bg-gray-200 rounded-full overflow-hidden;
-}
-
-.health-fill {
-  @apply h-full transition-all duration-300;
-}
-
-.skills-section,
-.traits-section {
-  @apply mb-4;
-}
-
-.skills-title,
-.traits-title {
-  @apply text-sm font-semibold text-gray-700 mb-2;
-}
-
-.skill-item {
-  @apply flex items-center justify-between mb-1;
-}
-
-.skill-name {
-  @apply text-sm;
-}
-
-.skill-level {
-  @apply flex items-center gap-2;
-}
-
-.skill-stars {
-  @apply flex gap-1;
-}
-
-.star {
-  @apply text-xs text-gray-300;
-}
-
-.star--filled {
-  @apply text-yellow-400;
-}
-
-.skill-number {
-  @apply text-xs font-mono text-gray-600;
-}
-
-.traits-list {
-  @apply flex flex-wrap gap-1;
-}
-
-.trait-tag {
-  @apply px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full;
-}
-
-.actions {
-  @apply flex gap-2;
-}
-</style>

@@ -1,25 +1,31 @@
 <template>
-  <div class="components-showcase">
-    <div class="page-header">
-      <h1 class="page-title">Component Library</h1>
-      <p class="page-description">Explore our collection of reusable Vue.js components</p>
-      <div class="breadcrumb">
-        <NuxtLink to="/" class="breadcrumb-link">Home</NuxtLink>
-        <span class="breadcrumb-separator">/</span>
-        <span class="breadcrumb-current">Components</span>
+  <div class="min-h-screen bg-gray-50">
+    <div class="bg-white border-b border-gray-200 py-8">
+      <h1 class="text-3xl font-bold text-gray-900 text-center mb-4">Component Library</h1>
+      <p class="text-lg text-gray-600 text-center mb-6">
+        Explore our collection of reusable Vue.js components
+      </p>
+      <div class="flex items-center justify-center gap-2 text-sm">
+        <NuxtLink to="/" class="text-blue-600 hover:text-blue-800">Home</NuxtLink>
+        <span class="text-gray-400">/</span>
+        <span class="text-gray-600">Components</span>
       </div>
     </div>
 
-    <div class="showcase-sections">
+    <div class="max-w-7xl mx-auto p-8 space-y-12">
       <!-- Base Components -->
-      <section class="showcase-section">
-        <h2 class="section-title">Base Components</h2>
+      <section class="space-y-8">
+        <h2 class="text-2xl font-bold text-gray-800 border-b border-gray-200 pb-4">
+          Base Components
+        </h2>
 
-        <div class="component-grid">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <!-- Button Showcase -->
-          <div class="component-demo">
-            <h3 class="component-title">Buttons</h3>
-            <div class="demo-content">
+          <div class="bg-white rounded-sm p-6 shadow-xs border border-gray-200">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-100">
+              Buttons
+            </h3>
+            <div class="space-y-4">
               <div class="button-variants">
                 <BaseButton variant="primary">Primary</BaseButton>
                 <BaseButton variant="secondary">Secondary</BaseButton>
@@ -43,9 +49,11 @@
           </div>
 
           <!-- Card Showcase -->
-          <div class="component-demo">
-            <h3 class="component-title">Cards</h3>
-            <div class="demo-content">
+          <div class="bg-white rounded-sm p-6 shadow-xs border border-gray-200">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-100">
+              Cards
+            </h3>
+            <div class="space-y-4">
               <div class="card-variants">
                 <BaseCard variant="default" class="demo-card">
                   <template #header>
@@ -79,9 +87,11 @@
 
         <div class="component-grid">
           <!-- Colonist Card Showcase -->
-          <div class="component-demo large">
-            <h3 class="component-title">Colonist Cards</h3>
-            <div class="demo-content">
+          <div class="bg-white rounded-sm p-6 shadow-xs border border-gray-200 lg:col-span-2">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-100">
+              Colonist Cards
+            </h3>
+            <div class="space-y-4">
               <div class="colonist-showcase">
                 <RimWorldColonistCard
                   v-for="colonist in sampleColonists"
@@ -95,9 +105,11 @@
           </div>
 
           <!-- Random Generator Showcase -->
-          <div class="component-demo">
-            <h3 class="component-title">Random Generator</h3>
-            <div class="demo-content">
+          <div class="bg-white rounded-sm p-6 shadow-xs border border-gray-200">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-100">
+              Random Generator
+            </h3>
+            <div class="space-y-4">
               <DemoRandomGenerator
                 title="Sample Generator"
                 type="Item"
@@ -115,9 +127,11 @@
 
         <div class="component-grid">
           <!-- Form Example -->
-          <div class="component-demo">
-            <h3 class="component-title">Form Components</h3>
-            <div class="demo-content">
+          <div class="bg-white rounded-sm p-6 shadow-xs border border-gray-200">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-100">
+              Form Components
+            </h3>
+            <div class="space-y-4">
               <form class="demo-form" @submit.prevent="submitForm">
                 <BaseInput
                   v-model="form.name"
@@ -146,9 +160,11 @@
           </div>
 
           <!-- Counter Example -->
-          <div class="component-demo">
-            <h3 class="component-title">Interactive Counter</h3>
-            <div class="demo-content">
+          <div class="bg-white rounded-sm p-6 shadow-xs border border-gray-200">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-100">
+              Interactive Counter
+            </h3>
+            <div class="space-y-4">
               <div class="counter-demo">
                 <div class="counter-display">
                   <span class="counter-value">{{ counter }}</span>
@@ -292,127 +308,3 @@ onMounted(() => {
   sampleColonists.value = generateMultipleColonists(2)
 })
 </script>
-
-<style scoped>
-.components-showcase {
-  @apply min-h-screen bg-gray-50;
-}
-
-.page-header {
-  @apply bg-white border-b border-gray-200 py-8;
-}
-
-.page-title {
-  @apply text-3xl font-bold text-gray-900 text-center mb-4;
-}
-
-.page-description {
-  @apply text-lg text-gray-600 text-center mb-6;
-}
-
-.breadcrumb {
-  @apply flex items-center justify-center gap-2 text-sm;
-}
-
-.breadcrumb-link {
-  @apply text-blue-600 hover:text-blue-800;
-}
-
-.breadcrumb-separator {
-  @apply text-gray-400;
-}
-
-.breadcrumb-current {
-  @apply text-gray-600;
-}
-
-.showcase-sections {
-  @apply max-w-7xl mx-auto p-8 space-y-12;
-}
-
-.showcase-section {
-  @apply space-y-8;
-}
-
-.section-title {
-  @apply text-2xl font-bold text-gray-800 border-b border-gray-200 pb-4;
-}
-
-.component-grid {
-  @apply grid grid-cols-1 lg:grid-cols-2 gap-8;
-}
-
-.component-demo {
-  @apply bg-white rounded-lg p-6 shadow-sm border border-gray-200;
-}
-
-.component-demo.large {
-  @apply lg:col-span-2;
-}
-
-.component-title {
-  @apply text-lg font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-100;
-}
-
-.demo-content {
-  @apply space-y-4;
-}
-
-.button-variants,
-.button-sizes,
-.button-states {
-  @apply flex flex-wrap gap-2;
-}
-
-.card-variants {
-  @apply grid grid-cols-1 sm:grid-cols-3 gap-3;
-}
-
-.demo-card {
-  @apply text-center;
-}
-
-.colonist-showcase {
-  @apply grid grid-cols-1 md:grid-cols-2 gap-4;
-}
-
-.demo-form {
-  @apply space-y-3;
-}
-
-.counter-demo {
-  @apply text-center space-y-4;
-}
-
-.counter-display {
-  @apply space-y-2;
-}
-
-.counter-value {
-  @apply block text-3xl font-bold text-blue-600;
-}
-
-.counter-label {
-  @apply block text-sm text-gray-600;
-}
-
-.counter-controls {
-  @apply flex justify-center gap-2;
-}
-
-.modal-overlay {
-  @apply fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4;
-}
-
-.modal-content {
-  @apply max-w-md w-full;
-}
-
-.close-btn {
-  @apply text-gray-500 hover:text-gray-700 text-2xl font-bold;
-}
-
-.colonist-details {
-  @apply space-y-2 text-sm;
-}
-</style>

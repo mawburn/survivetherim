@@ -1,17 +1,17 @@
 <template>
-  <div class="colony-page">
-    <div class="page-header">
-      <div class="header-content">
-        <div class="breadcrumb">
-          <NuxtLink to="/" class="breadcrumb-link">Home</NuxtLink>
-          <span class="breadcrumb-separator">/</span>
-          <span class="breadcrumb-current">Colony Simulator</span>
+  <div class="min-h-screen bg-gray-50">
+    <div class="bg-white border-b border-gray-200 py-8">
+      <div class="max-w-7xl mx-auto px-4 text-center">
+        <div class="flex items-center justify-center gap-2 text-sm mb-4">
+          <NuxtLink to="/" class="text-blue-600 hover:text-blue-800">Home</NuxtLink>
+          <span class="text-gray-400">/</span>
+          <span class="text-gray-600">Colony Simulator</span>
         </div>
 
-        <h1 class="page-title">Colony Management</h1>
-        <p class="page-description">Generate and manage your virtual RimWorld colony</p>
+        <h1 class="text-3xl font-bold text-gray-900 mb-4">Colony Management</h1>
+        <p class="text-lg text-gray-600 mb-8">Generate and manage your virtual RimWorld colony</p>
 
-        <div class="colony-controls">
+        <div class="flex gap-4 justify-center flex-wrap">
           <BaseButton :loading="isGenerating" @click="generateNewColonists">
             Generate New Colony
           </BaseButton>
@@ -31,74 +31,80 @@
       </div>
     </div>
 
-    <div class="colony-content">
+    <div class="max-w-7xl mx-auto p-8 space-y-12">
       <!-- Colony Statistics -->
-      <section class="stats-section">
-        <h2 class="section-title">Colony Overview</h2>
+      <section class="space-y-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+          Colony Overview
+        </h2>
 
-        <div class="stats-grid">
-          <BaseCard variant="bordered" class="stat-card">
-            <div class="stat-content">
-              <div class="stat-value">{{ colonists.length }}</div>
-              <div class="stat-label">Total Colonists</div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <BaseCard variant="bordered" class="text-center">
+            <div class="py-4">
+              <div class="text-3xl font-bold text-blue-600 mb-2">{{ colonists.length }}</div>
+              <div class="text-gray-600 font-medium">Total Colonists</div>
             </div>
           </BaseCard>
 
-          <BaseCard variant="bordered" class="stat-card">
-            <div class="stat-content">
-              <div class="stat-value">{{ averageHealth }}%</div>
-              <div class="stat-label">Average Health</div>
+          <BaseCard variant="bordered" class="text-center">
+            <div class="py-4">
+              <div class="text-3xl font-bold text-blue-600 mb-2">{{ averageHealth }}%</div>
+              <div class="text-gray-600 font-medium">Average Health</div>
             </div>
           </BaseCard>
 
-          <BaseCard variant="bordered" class="stat-card">
-            <div class="stat-content">
-              <div class="stat-value">{{ happyColonists }}</div>
-              <div class="stat-label">Happy Colonists</div>
+          <BaseCard variant="bordered" class="text-center">
+            <div class="py-4">
+              <div class="text-3xl font-bold text-blue-600 mb-2">{{ happyColonists }}</div>
+              <div class="text-gray-600 font-medium">Happy Colonists</div>
             </div>
           </BaseCard>
 
-          <BaseCard variant="bordered" class="stat-card">
-            <div class="stat-content">
-              <div class="stat-value">{{ topSkill || 'N/A' }}</div>
-              <div class="stat-label">Top Colony Skill</div>
+          <BaseCard variant="bordered" class="text-center">
+            <div class="py-4">
+              <div class="text-3xl font-bold text-blue-600 mb-2">{{ topSkill || 'N/A' }}</div>
+              <div class="text-gray-600 font-medium">Top Colony Skill</div>
             </div>
           </BaseCard>
         </div>
       </section>
 
       <!-- Mood Distribution -->
-      <section v-if="colonists.length > 0" class="mood-section">
-        <h2 class="section-title">Mood Distribution</h2>
+      <section v-if="colonists.length > 0" class="space-y-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+          Mood Distribution
+        </h2>
 
         <BaseCard variant="elevated">
-          <div class="mood-chart">
-            <div v-for="mood in moodDistribution" :key="mood.name" class="mood-bar">
-              <span class="mood-name">{{ mood.name }}</span>
-              <div class="mood-bar-container">
+          <div class="p-6 space-y-4">
+            <div v-for="mood in moodDistribution" :key="mood.name" class="flex items-center gap-4">
+              <span class="w-20 text-sm font-medium">{{ mood.name }}</span>
+              <div class="flex-1 h-6 bg-gray-200 rounded-full overflow-hidden">
                 <div
-                  class="mood-bar-fill"
+                  class="h-full transition-all duration-500"
                   :style="{ width: `${mood.percentage}%` }"
                   :class="getMoodBarClass(mood.name)"
                 />
               </div>
-              <span class="mood-count">{{ mood.count }}</span>
+              <span class="w-8 text-right text-sm font-mono">{{ mood.count }}</span>
             </div>
           </div>
         </BaseCard>
       </section>
 
       <!-- Colonists Grid -->
-      <section class="colonists-section">
-        <h2 class="section-title">
+      <section class="space-y-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
           Colonists
-          <span v-if="colonists.length > 0" class="colonist-count">({{ colonists.length }})</span>
+          <span v-if="colonists.length > 0" class="text-lg font-normal text-gray-600"
+            >({{ colonists.length }})</span
+          >
         </h2>
 
-        <div v-if="colonists.length === 0" class="empty-state">
-          <div class="empty-content">
-            <h3 class="empty-title">No Colonists Yet</h3>
-            <p class="empty-description">
+        <div v-if="colonists.length === 0" class="flex items-center justify-center py-16">
+          <div class="text-center space-y-4">
+            <h3 class="text-xl font-semibold text-gray-700">No Colonists Yet</h3>
+            <p class="text-gray-600 max-w-md">
               Generate a new colony to get started with your RimWorld simulation
             </p>
             <BaseButton :loading="isGenerating" @click="generateNewColonists">
@@ -107,7 +113,7 @@
           </div>
         </div>
 
-        <div v-else class="colonists-grid">
+        <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           <RimWorldColonistCard
             v-for="colonist in colonists"
             :key="colonist.id"
@@ -120,50 +126,71 @@
     </div>
 
     <!-- Modal for colonist details -->
-    <div v-if="selectedColonist" class="modal-overlay" @click="selectedColonist = null">
-      <div class="modal-content" @click.stop>
+    <div
+      v-if="selectedColonist"
+      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+      @click="selectedColonist = null"
+    >
+      <div class="max-w-lg w-full max-h-screen overflow-y-auto" @click.stop>
         <BaseCard variant="elevated">
           <template #header>
             <div class="flex justify-between items-center">
               <h3 class="text-xl font-bold">{{ selectedColonist.name }} Details</h3>
-              <button class="close-btn" @click="selectedColonist = null">&times;</button>
+              <button
+                class="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                @click="selectedColonist = null"
+              >
+                &times;
+              </button>
             </div>
           </template>
 
-          <div class="colonist-details">
-            <div class="detail-grid">
-              <div class="detail-item">
-                <span class="detail-label">Age:</span>
-                <span class="detail-value">{{ selectedColonist.age }} years</span>
+          <div class="space-y-6">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div class="space-y-1">
+                <span class="block text-sm font-medium text-gray-600">Age:</span>
+                <span class="block font-semibold">{{ selectedColonist.age }} years</span>
               </div>
 
-              <div class="detail-item">
-                <span class="detail-label">Health:</span>
-                <span class="detail-value">{{ selectedColonist.health }}%</span>
+              <div class="space-y-1">
+                <span class="block text-sm font-medium text-gray-600">Health:</span>
+                <span class="block font-semibold">{{ selectedColonist.health }}%</span>
               </div>
 
-              <div class="detail-item">
-                <span class="detail-label">Mood:</span>
-                <span class="detail-value" :class="getMoodTextClass(selectedColonist.mood)">
+              <div class="space-y-1">
+                <span class="block text-sm font-medium text-gray-600">Mood:</span>
+                <span class="block font-semibold" :class="getMoodTextClass(selectedColonist.mood)">
                   {{ selectedColonist.mood }}
                 </span>
               </div>
             </div>
 
-            <div class="skills-section">
-              <h4 class="subsection-title">Skills</h4>
-              <div class="skills-grid">
-                <div v-for="skill in selectedColonist.skills" :key="skill.name" class="skill-item">
-                  <span class="skill-name">{{ skill.name }}</span>
-                  <span class="skill-level">{{ skill.level }}</span>
+            <div class="space-y-3">
+              <h4 class="text-lg font-semibold text-gray-800 border-b border-gray-200 pb-2">
+                Skills
+              </h4>
+              <div class="grid grid-cols-2 gap-2">
+                <div
+                  v-for="skill in selectedColonist.skills"
+                  :key="skill.name"
+                  class="flex justify-between items-center bg-gray-50 rounded-sm px-3 py-2"
+                >
+                  <span class="text-sm font-medium">{{ skill.name }}</span>
+                  <span class="text-sm font-mono text-blue-600">{{ skill.level }}</span>
                 </div>
               </div>
             </div>
 
-            <div class="traits-section">
-              <h4 class="subsection-title">Traits</h4>
-              <div class="traits-list">
-                <span v-for="trait in selectedColonist.traits" :key="trait" class="trait-tag">
+            <div class="space-y-3">
+              <h4 class="text-lg font-semibold text-gray-800 border-b border-gray-200 pb-2">
+                Traits
+              </h4>
+              <div class="flex flex-wrap gap-2">
+                <span
+                  v-for="trait in selectedColonist.traits"
+                  :key="trait"
+                  class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full"
+                >
                   {{ trait }}
                 </span>
               </div>
@@ -171,7 +198,7 @@
           </div>
 
           <template #footer>
-            <div class="modal-actions">
+            <div class="flex gap-2 justify-end">
               <BaseButton size="small" @click="handleAssignTask(selectedColonist)">
                 Assign Task
               </BaseButton>
@@ -322,199 +349,3 @@ onMounted(() => {
   generateNewColonists()
 })
 </script>
-
-<style scoped>
-.colony-page {
-  @apply min-h-screen bg-gray-50;
-}
-
-.page-header {
-  @apply bg-white border-b border-gray-200 py-8;
-}
-
-.header-content {
-  @apply max-w-7xl mx-auto px-4 text-center;
-}
-
-.breadcrumb {
-  @apply flex items-center justify-center gap-2 text-sm mb-4;
-}
-
-.breadcrumb-link {
-  @apply text-blue-600 hover:text-blue-800;
-}
-
-.breadcrumb-separator {
-  @apply text-gray-400;
-}
-
-.breadcrumb-current {
-  @apply text-gray-600;
-}
-
-.page-title {
-  @apply text-3xl font-bold text-gray-900 mb-4;
-}
-
-.page-description {
-  @apply text-lg text-gray-600 mb-8;
-}
-
-.colony-controls {
-  @apply flex gap-4 justify-center flex-wrap;
-}
-
-.colony-content {
-  @apply max-w-7xl mx-auto p-8 space-y-12;
-}
-
-.section-title {
-  @apply text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2;
-}
-
-.colonist-count {
-  @apply text-lg font-normal text-gray-600;
-}
-
-.stats-section,
-.mood-section {
-  @apply space-y-6;
-}
-
-.stats-grid {
-  @apply grid grid-cols-2 md:grid-cols-4 gap-6;
-}
-
-.stat-card {
-  @apply text-center;
-}
-
-.stat-content {
-  @apply py-4;
-}
-
-.stat-value {
-  @apply text-3xl font-bold text-blue-600 mb-2;
-}
-
-.stat-label {
-  @apply text-gray-600 font-medium;
-}
-
-.mood-chart {
-  @apply p-6 space-y-4;
-}
-
-.mood-bar {
-  @apply flex items-center gap-4;
-}
-
-.mood-name {
-  @apply w-20 text-sm font-medium;
-}
-
-.mood-bar-container {
-  @apply flex-1 h-6 bg-gray-200 rounded-full overflow-hidden;
-}
-
-.mood-bar-fill {
-  @apply h-full transition-all duration-500;
-}
-
-.mood-count {
-  @apply w-8 text-right text-sm font-mono;
-}
-
-.colonists-section {
-  @apply space-y-6;
-}
-
-.empty-state {
-  @apply flex items-center justify-center py-16;
-}
-
-.empty-content {
-  @apply text-center space-y-4;
-}
-
-.empty-title {
-  @apply text-xl font-semibold text-gray-700;
-}
-
-.empty-description {
-  @apply text-gray-600 max-w-md;
-}
-
-.colonists-grid {
-  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6;
-}
-
-.modal-overlay {
-  @apply fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4;
-}
-
-.modal-content {
-  @apply max-w-lg w-full max-h-screen overflow-y-auto;
-}
-
-.close-btn {
-  @apply text-gray-500 hover:text-gray-700 text-2xl font-bold;
-}
-
-.colonist-details {
-  @apply space-y-6;
-}
-
-.detail-grid {
-  @apply grid grid-cols-1 sm:grid-cols-3 gap-4;
-}
-
-.detail-item {
-  @apply space-y-1;
-}
-
-.detail-label {
-  @apply block text-sm font-medium text-gray-600;
-}
-
-.detail-value {
-  @apply block font-semibold;
-}
-
-.subsection-title {
-  @apply text-lg font-semibold text-gray-800 border-b border-gray-200 pb-2;
-}
-
-.skills-section,
-.traits-section {
-  @apply space-y-3;
-}
-
-.skills-grid {
-  @apply grid grid-cols-2 gap-2;
-}
-
-.skill-item {
-  @apply flex justify-between items-center bg-gray-50 rounded px-3 py-2;
-}
-
-.skill-name {
-  @apply text-sm font-medium;
-}
-
-.skill-level {
-  @apply text-sm font-mono text-blue-600;
-}
-
-.traits-list {
-  @apply flex flex-wrap gap-2;
-}
-
-.trait-tag {
-  @apply px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full;
-}
-
-.modal-actions {
-  @apply flex gap-2 justify-end;
-}
-</style>

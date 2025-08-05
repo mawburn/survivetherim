@@ -1,6 +1,3 @@
-import Database from 'better-sqlite3'
-import { join } from 'path'
-
 interface Guide {
   id: number
   title: string
@@ -9,82 +6,89 @@ interface Guide {
   content: string
   difficulty: string
   category: string
-  tags: string
+  tags: string[]
   created_at: string
   updated_at: string
 }
+
+// Mock data for now - replace with D1 database queries later
+const mockGuides: Guide[] = [
+  {
+    id: 1,
+    title: 'Getting Started in RimWorld',
+    slug: 'getting-started',
+    description: "A beginner's guide to surviving your first colony.",
+    content: '# Getting Started\n\nWelcome to RimWorld! This guide will help you survive your first few days...',
+    difficulty: 'Beginner',
+    category: 'Basics',
+    tags: ['survival', 'basics', 'tutorial'],
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+  {
+    id: 2,
+    title: 'Advanced Base Defense',
+    slug: 'base-defense',
+    description: 'Learn how to protect your colony from raids and threats.',
+    content: '# Base Defense\n\nDefending your colony is crucial for long-term survival...',
+    difficulty: 'Advanced',
+    category: 'Combat',
+    tags: ['defense', 'combat', 'strategy'],
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+  {
+    id: 3,
+    title: 'Food Production and Storage',
+    slug: 'food-production',
+    description: 'Master the art of keeping your colonists fed.',
+    content: '# Food Production\n\nFood is the foundation of any successful colony...',
+    difficulty: 'Intermediate',
+    category: 'Production',
+    tags: ['food', 'farming', 'storage'],
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+]
 
 export default defineEventHandler(async event => {
   try {
     const query = getQuery(event)
     const { category, difficulty, search, limit = 10, offset = 0 } = query
 
-    const dbPath = join(process.cwd(), 'content/database/rimworld.db')
-    const db = new Database(dbPath)
+    // Filter mock data
+    let filteredGuides = mockGuides
 
-    let sql = 'SELECT * FROM guides WHERE 1=1'
-    const params: unknown[] = []
-
-    // Add filters
     if (category) {
-      sql += ' AND category = ?'
-      params.push(category)
+      filteredGuides = filteredGuides.filter(guide => guide.category === category)
     }
 
     if (difficulty) {
-      sql += ' AND difficulty = ?'
-      params.push(difficulty)
+      filteredGuides = filteredGuides.filter(guide => guide.difficulty === difficulty)
     }
 
     if (search) {
-      sql += ' AND (title LIKE ? OR description LIKE ? OR content LIKE ?)'
-      const searchTerm = `%${search}%`
-      params.push(searchTerm, searchTerm, searchTerm)
+      const searchTerm = search.toString().toLowerCase()
+      filteredGuides = filteredGuides.filter(guide =>
+        guide.title.toLowerCase().includes(searchTerm) ||
+        guide.description.toLowerCase().includes(searchTerm) ||
+        guide.content.toLowerCase().includes(searchTerm)
+      )
     }
 
-    // Add ordering and pagination
-    sql += ' ORDER BY created_at DESC LIMIT ? OFFSET ?'
-    params.push(Number(limit), Number(offset))
-
-    const guides = db.prepare(sql).all(...params)
-
-    // Parse JSON tags
-    const guidesWithParsedTags = (guides as Guide[]).map(guide => ({
-      ...guide,
-      tags: guide.tags ? JSON.parse(guide.tags) : [],
-    }))
-
-    // Get total count for pagination
-    let countSql = 'SELECT COUNT(*) as total FROM guides WHERE 1=1'
-    const countParams: unknown[] = []
-
-    if (category) {
-      countSql += ' AND category = ?'
-      countParams.push(category)
-    }
-
-    if (difficulty) {
-      countSql += ' AND difficulty = ?'
-      countParams.push(difficulty)
-    }
-
-    if (search) {
-      countSql += ' AND (title LIKE ? OR description LIKE ? OR content LIKE ?)'
-      const searchTerm = `%${search}%`
-      countParams.push(searchTerm, searchTerm, searchTerm)
-    }
-
-    const { total } = db.prepare(countSql).get(...countParams) as { total: number }
-
-    db.close()
+    // Apply pagination
+    const total = filteredGuides.length
+    const startIndex = Number(offset)
+    const endIndex = startIndex + Number(limit)
+    const paginatedGuides = filteredGuides.slice(startIndex, endIndex)
 
     return {
-      guides: guidesWithParsedTags,
+      guides: paginatedGuides,
       pagination: {
         total,
         limit: Number(limit),
         offset: Number(offset),
-        hasMore: Number(offset) + Number(limit) < total,
+        hasMore: endIndex < total,
       },
     }
   } catch (error) {

@@ -4,17 +4,21 @@
       <h3 class="text-xl font-bold">{{ title }}</h3>
     </template>
 
-    <div class="generator-content">
+    <div class="space-y-6">
       <div class="current-result">
-        <div class="result-display">
-          <span v-if="isGenerating" class="generating-text"> Generating... </span>
-          <span v-else class="result-text">
+        <div
+          class="text-center p-8 bg-gray-50 rounded-lg min-h-[120px] flex items-center justify-center"
+        >
+          <span v-if="isGenerating" class="text-lg text-gray-500 animate-pulse">
+            Generating...
+          </span>
+          <span v-else class="text-2xl font-bold text-gray-800">
             {{ currentResult || 'Click generate to start!' }}
           </span>
         </div>
       </div>
 
-      <div class="controls">
+      <div class="flex gap-3 justify-center">
         <BaseButton :loading="isGenerating" :disabled="isGenerating" @click="generate">
           Generate {{ type }}
         </BaseButton>
@@ -29,13 +33,13 @@
         </BaseButton>
       </div>
 
-      <div v-if="history.length > 0" class="history-section">
-        <h4 class="history-title">Previous Results</h4>
-        <div class="history-list">
+      <div v-if="history.length > 0" class="space-y-3">
+        <h4 class="text-sm font-semibold text-gray-700">Previous Results</h4>
+        <div class="space-y-2 max-h-48 overflow-y-auto">
           <div
             v-for="(item, index) in history"
             :key="index"
-            class="history-item"
+            class="p-2 bg-gray-100 rounded cursor-pointer transition-colors hover:bg-gray-200"
             @click="currentResult = item"
           >
             {{ item }}
@@ -95,41 +99,3 @@ onMounted(() => {
   generate()
 })
 </script>
-
-<style scoped>
-.generator-content {
-  @apply space-y-6;
-}
-
-.result-display {
-  @apply text-center p-8 bg-gray-50 rounded-lg min-h-[120px] flex items-center justify-center;
-}
-
-.generating-text {
-  @apply text-lg text-gray-500 animate-pulse;
-}
-
-.result-text {
-  @apply text-2xl font-bold text-gray-800;
-}
-
-.controls {
-  @apply flex gap-3 justify-center;
-}
-
-.history-section {
-  @apply space-y-3;
-}
-
-.history-title {
-  @apply text-sm font-semibold text-gray-700;
-}
-
-.history-list {
-  @apply space-y-2 max-h-48 overflow-y-auto;
-}
-
-.history-item {
-  @apply p-2 bg-gray-100 rounded cursor-pointer transition-colors hover:bg-gray-200;
-}
-</style>
