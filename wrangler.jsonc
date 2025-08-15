@@ -1,9 +1,0 @@
-{
-  "name": "survivetherim",
-  "compatibility_date": "2025-08-04",
-  "main": "./.output/server/index.mjs",
-  "assets": {
-    "directory": "./.output/public",
-    "binding": "ASSETS"
-  }
-}
